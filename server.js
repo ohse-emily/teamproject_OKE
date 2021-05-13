@@ -12,7 +12,8 @@ app.set('view engine', 'html');
 nunjucks.configure('views', {
     express:app,
 })
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());//바디파서가 json을 못 넘겨줘서 그래
 app.use(cors());
 
 app.use(session({

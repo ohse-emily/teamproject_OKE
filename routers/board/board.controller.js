@@ -1,4 +1,4 @@
-const {Board} = require('../../models')
+const {Board,User,Comment} = require('../../models')
 
 let main_board = async (req,res)=>{
     let userid = req.query.userid;
@@ -96,7 +96,41 @@ let remove = (req,res)=>{
 
     res.redirect('/board/main_board')
 }
+
+let comment_post=async(req,res,next)=>{ 
+    let body = req.body; 
+
+    console.log(body);
+    let user = await User.findOne({
+      attributes: ['id'],
+      where: {
+        userid:req.session.uid,
+      }
+    });
+    let useridx = user.dataValues.id; 
+    
+    await Comment.create({
+      board_id:body.boardid, 
+      useridx: useridx,
+      content: body.content,
+      comment_type:true, 
+    });
+  
+    
+    let commList = await Comment.findAll({
+      where:{
+        board_id:body.boardid, 
+      },
+      order:[['id','DESC']],
+    });
+  
+    res.json({
+      commList,
+    })
+  }
+
 module.exports={
-    main_board, write, view, modify, remove, view_after_write,view_after_modify
+  comment_post,
+    main_board, write, view, modify, remove, view_after_write,view_after_modify,
 }
 

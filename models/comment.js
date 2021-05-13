@@ -4,10 +4,11 @@ const moment = require('moment');
 module.exports = class Comment extends Sequelize.Model{
     static init(sequelize){
         return super.init({
-            userid:{
-                type:Sequelize.STRING(30),
+            useridx:{
+                type:Sequelize.INTEGER(11),
                 allowNull:false,
             },
+            
             userimage:{
                 type:Sequelize.STRING(100),
                 allowNull:true,
@@ -32,7 +33,7 @@ module.exports = class Comment extends Sequelize.Model{
                 type:Sequelize.BOOLEAN,
                 allowNull:false,   //그냥 댓글이면 true, 답글이면 false 
             },
-            parents_comment:{
+            master_comment:{
                 type:Sequelize.INTEGER(11),
                 allowNull:true,
             }

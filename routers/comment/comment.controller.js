@@ -1,2 +1,0 @@
-const {Comment} = require('../../models')
-
