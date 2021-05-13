@@ -12,8 +12,9 @@ app.set('view engine', 'html');
 nunjucks.configure('views', {
     express:app,
 })
-
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors());
+
 app.use(session({
     secret:'aaa',
     resave:false,
@@ -23,9 +24,6 @@ app.use(session({
         secure:false
     }
 }))
-
-app.use(bodyParser.urlencoded({extended:false}));
-
 
 sequelize.sync({force:false})
 .then(()=>{

@@ -1,3 +1,4 @@
+const {Board} = require('../../models')
 
 let main_board = (req,res)=>{
 
@@ -8,9 +9,21 @@ let write = (req,res)=>{
     res.render('./board/write.html')
 }
 
-let view = (req,res)=>{
-    
-    res.render('./board/view.html')
+let view = async (req,res)=>{
+    let userid = req.query.userid
+    let subject = req.body.write_subject;
+    let content = req.body.write_content;
+    console.log(userid,subject,content)
+    await Board.create({
+        userid, 
+        subject, 
+        content,
+        like:
+    })
+
+    res.render('./board/view.html',{
+        userid, subject, content,
+    })
 }
 
 let modify = (req,res)=>{

@@ -24,7 +24,7 @@ let join_success = async (req, res) => {
     let userpw = req.body.userpw;
     let username = req.body.username;
     let gender = req.body.gender;
-    let userimage = req.file == undefined ? '': req.file.path;
+    let userimage = req.file == undefined ? '': req.file.file;
 
     try {
         let rst = await User.create({ userid, userpw, username, gender, userimage })
@@ -50,7 +50,7 @@ let login_check = async (req, res) => {
         req.session.isLogin = true;
 
         req.session.save(() => {
-            res.redirect('/');
+            res.redirect('/board/main_board');
         })
     }
 }

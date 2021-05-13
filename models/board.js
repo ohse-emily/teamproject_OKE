@@ -28,6 +28,7 @@ module.exports = class Board extends Sequelize.Model{
             hit:{
                 type:Sequelize.INTEGER(11),
                 allowNull:false,
+                defaultValue:'0'
             },
             date:{
                 type:Sequelize.DATEONLY,
