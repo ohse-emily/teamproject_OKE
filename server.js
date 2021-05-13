@@ -1,16 +1,31 @@
 const express=require('express');
+const {sequelize} = require('./models');
+const {User} =require('./models');
 const app = express();
 const routers = require('./routers')
-const {sequelize} = require('./models');
 const bodyParser = require('body-parser')
 const nunjucks = require('nunjucks')
+const cors = require('cors');
+const session = require('express-session');
 
+app.set('view engine', 'html');
 nunjucks.configure('views', {
     express:app,
 })
 
+app.use(cors());
+app.use(session({
+    secret:'aaa',
+    resave:false,
+    saveUninitialized:true,
+    cookie:{
+        httpOnly:true,
+        secure:false
+    }
+}))
+
 app.use(bodyParser.urlencoded({extended:false}));
-app.set('view engine', 'html');
+
 
 sequelize.sync({force:false})
 .then(()=>{
