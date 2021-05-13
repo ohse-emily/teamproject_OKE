@@ -18,17 +18,22 @@ join html 입니다.
         <tr>
             <td>이름</td> <!-- 글자길이 -->
             <td><input type="text" name="username" maxlength="20"></td>
-        </tr>
-        <tr>
-            <td>성별</td>
-            <td>
-                <input type='radio' id="gender" name="gender" value="0" checked>남자
-                <input type='radio' id="gender" name="gender" value="1">여자
-            </td>
-        </tr>
+        </tr>        
         <tr>
             <td>이미지</td>
             <td><input type="file" name="img"></td>
+        </tr>
+        <tr>
+            <td>휴대폰번호</td>
+            <td>
+                <input type='text' id="mobile" name="mobile">               
+            </td>
+        </tr>
+        <tr>
+            <td>이메일</td>
+            <td>
+                <input type='text' id="useremail" name="useremail">               
+            </td>
         </tr>
 
     </table>
@@ -49,24 +54,6 @@ join html 입니다.
         return pwd1.value == pwd2.value;
     }
     
-    async function userid_check(){
-        
-        let data = await axios.get(`http://localhost:3000/user/userid_check?userid=${userid.value}`);
-        
-        console.log(data.data.login);
-        //AJAX 가져옴, 중복:false 중복x: true
-        login_flag = data.data.login;
-        if(login_flag){
-            userid_msg.innerHTML = '올바른 아이디입니다.'
-            userid_msg.style.color = 'green'
-        }else{
-            userid_msg.innerHTML = '중복된 아이디입니다.'
-            userid_msg.style.color = 'red'
-        }
-    }
-   
-    userid.addEventListener('focusout',userid_check);
-
     btn.addEventListener('click', () => {
         console.log('aaa');
         pwd_check = password_check(); //boolean
@@ -80,4 +67,25 @@ join html 입니다.
         }
         // login_form.submit(); //조건이 맞는 경우에만
     })
+
+    //ID 중복 쳌 //
+    userid.addEventListener('focusout',userid_check);
+    async function userid_check(){
+        
+        let data = await axios.get(`http://localhost:3000/user/userid_check?userid=${userid.value}`);
+     
+       // console.log(data.data.login);
+        //AJAX 가져옴, 중복:false 중복x: true
+        login_flag = data.data.login;
+        if(login_flag){
+            userid_msg.innerHTML = '올바른 아이디입니다.'
+            userid_msg.style.color = 'green'
+        }else{
+            userid_msg.innerHTML = '중복된 아이디입니다.'
+            userid_msg.style.color = 'red'
+        }
+    }
+   
+
+
 </script>

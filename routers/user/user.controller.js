@@ -11,7 +11,10 @@ let login = (req, res) => {
 }
 
 let info = async (req, res) => {
-    let userlist = await User.findAll({});
+    let userid = req.query.userid;
+    let userlist = await User.findOne({
+        where : {userid}
+    });
     
     res.render('./user/info.html',{
         userlist:userlist,
@@ -23,14 +26,14 @@ let join_success = async (req, res) => {
     let userid = req.body.userid;
     let userpw = req.body.userpw;
     let username = req.body.username;
-    let gender = req.body.gender;
-    let userimage = req.file == undefined ? '': req.file.path;
+    let userimage = req.file == undefined ? '': req.file.file;
+    let mobile = req.body.mobile;
+    let useremail = req.body.useremail;
 
-    try {
-        let rst = await User.create({ userid, userpw, username, gender, userimage })
-    } catch (e) {
-        console.log(e);
-    }
+    let rst = await User.create({ 
+        userid, userpw, username, userimage,mobile, useremail 
+    })
+
     res.render('./user/join_success.html', { userid, username });
 }
 
