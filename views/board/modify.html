@@ -1,9 +1,38 @@
-modify.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>modify.html</h2>
+    <form method="post" id="modify_form" action ="/board/view_after_modify?id={{result.id}}&hit={{hit}}"> 
+        <button type="submit" id="blocking_enter" style="display:none" disabled></button> <!--엔터치면 제목,내용없이 작성되는 것 방지-->
+        제목 : <input id="modify_subject" type = "text" name ="modify_subject" value ="{{result.subject}}"><br/>
+        내용 : <input id="modify_content" type = "textarea" name ="modify_content" value ="{{result.content}}"><br/>
+        
+        <button><a href = "/board/main_board" >글 수정 취소</a></button>
+        <input id ="btn" type = "button" value="글 수정 완료">
+    </form>
+    <script type="text/javascript">
+        let btn = document.querySelector('#btn');
+        btn.addEventListener('click',checking);
 
-<form method="post" action ="/board/view_after_modify?id={{result.id}}"> 
-    제목 : <input type = "text" name ="modify_subject" value ="{{result.subject}}"><br/>
-    내용 : <input type = "textarea" name ="modify_content" value ="{{result.content}}"><br/>
-    
-    <button><a href = "/board/main_board" >글 수정 취소</a></button>
-    <input type = "submit" value="글 수정 완료">
-</form>
+        let subject = document.querySelector('#modify_subject');
+        let content = document.querySelector('#modify_content')
+
+        function checking(){
+            if(subject.value==''){
+                alert('제목을 입력해주세요.')
+            }else if (content.value==''){
+                alert('내용을 입력해주세요.')
+            }else{
+                modify_form.submit();
+            }
+        }
+
+    </script>    
+</body>
+</html>

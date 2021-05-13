@@ -11,41 +11,40 @@
 
 <body>
     <h2>view.html</h2>
-    글쓴이 : <input type="text" name="userid" value="{{userid}}"><br />
+    글쓴이 : <input type="text" id="userid" name="userid" value="{{userid}}"><br />
+    조회수 : <input type="number" id="hit" name="hit" value={{hit}}><br/>
     제목 : <input type="text" name="write_subject" value="{{subject}}"><br />
     내용 : <input type="textarea" name="write_content" value="{{content}}"><br />
     <br />
 
     <button><a href="/board/main_board">메인으로 가기</a></button>
-    <button><a href="/board/modify?id={{id}}">수정하기</a></button>
-    <button><a href="/board/remove?id={{id}}">삭제하기</a></button>
-    <input type="hidden" name="boardid" id="boardid" value="{{id}}">
+    <button><a id="modify" href="/board/modify?id={{id}}&hit={{hit}}">수정하기</a></button>
+    <button><a id="remove" href="/board/remove?id={{id}}">삭제하기</a></button>
+
+    <input type="hidden" name="boardid" id="boardid" value="{{id}}"> <!--게시판 글 INDEX 번호-->
+    <input type="hidden" name="visiter" id="visiter" value="{{visiter}}"> <!--방문자 (로그인한 아이디)-->
 
     <div id="commentBox">
         <input type="text" id='comm_con' name="comm_con">
         <input type="button" id="comm_cancle" value="취소">
-        <input type="button" id="comm_submit" value="댓글">
+        <input type="button" id="comm_submit" value="댓글작성">
         <ul id=commentlist>
-
+            <!--댓글 달리는 곳-->
         </ul>
-
-
     </div>
-
     <!-- ajax 셋팅 -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script type="text/javascript">
-
-        const content = document.querySelector('#comm_con');
-        const boardid = document.querySelector('#boardid');
-        const userid = 'monkey';
-        const comm_submit = document.querySelector('#comm_submit');
+        const content = document.querySelector('#comm_con'); //댓글textbox
+        const boardid = document.querySelector('#boardid'); //id 
+        const userid = 'monkey';   //?
+        const comm_submit = document.querySelector('#comm_submit'); //댓글 작성 버튼 
         const commentBox = document.querySelector('#commentBox');
-        const commentlist = document.querySelector('#commentlist');
+        const commentlist = document.querySelector('#commentlist'); //댓글 달리는 곳 
 
         //댓글 내용이 있을 때만 전송할 수 있게 만들기 
         async function post_comment() {
-            console.log("aaa");
+
             let commentpost = await axios.post('http://localhost:3000/board/comment_post', {
                 content: content.value,
                 boardid: boardid.value,
@@ -72,10 +71,25 @@
                 commentlist.appendChild(li);
             });
         }
-
         comm_submit.addEventListener('click', post_comment);
 
-
+        // 로그인한 id 본인만 글 수정, 삭제 가능 하도록 
+        const modify = document.querySelector('#modify');
+        const remove = document.querySelector('#remove');
+        const visiter = document.querySelector('#visiter');
+        const writer = document.querySelector('#userid');
+        modify.addEventListener('click',()=>{
+            if(visiter.value!=writer.value){
+                alert('글 작성자만 수정할 수 있습니다.');
+                modify.setAttribute('href','')
+            }
+        })
+        remove.addEventListener('click',()=>{
+            if(visiter.value!=writer.value){
+                alert('글 작성자만 삭제할 수 있습니다.');
+                remove.setAttribute('href','')
+            }
+        })
 
     </script>
 

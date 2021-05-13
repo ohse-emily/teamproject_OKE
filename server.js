@@ -20,19 +20,15 @@ app.use(session({
     secret:'aaa',
     resave:false,
     saveUninitialized:true,
-    cookie:{
+    cookie:{                    //?뜻 
         httpOnly:true,
         secure:false
     }
 }))
 
 sequelize.sync({force:false})
-.then(()=>{
-    console.log('접속 완료')
-})
-.catch(()=>{
-    console.log('접속 실패 ')
-})
+.then(()=>{console.log('접속 완료')})
+.catch(()=>{console.log('접속 실패 ')})
 
 app.use('/',routers);
 

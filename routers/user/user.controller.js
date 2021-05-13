@@ -51,7 +51,6 @@ let login_check = async (req, res) => {
 
         req.session.uid = userid;
         req.session.isLogin = true;
-
         req.session.save(() => {
             res.redirect(`/board/main_board?userid=${userid}`);
         })

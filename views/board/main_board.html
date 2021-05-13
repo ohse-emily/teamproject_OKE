@@ -20,8 +20,8 @@
         </tr>
         {% for item in result %}
         <tr>
-            <td>{{item.dataValues.id}}</td>
-            <td><a href ="/board/view?id={{item.dataValues.id}}">{{item.dataValues.subject}}</a></td>
+            <td>{{item.dataValues.numbering}}</td>
+            <td><a href ="/board/view?id={{item.dataValues.id}}&vister={{userid}}">{{item.dataValues.subject}}</a></td>
             <td>{{item.dataValues.userid}}</td>
             <td>{{item.dataValues.content}}</td>
             <td>{{item.dataValues.date}}</td>
