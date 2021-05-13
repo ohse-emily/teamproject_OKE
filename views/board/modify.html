@@ -1,8 +1,8 @@
 modify.html
 
-<form method="post" action ="/board/view"> 
-    제목 : <input type = "text" name ="modify_subject" value =""><br/>
-    내용 : <input type = "textarea" name ="modify_content" value =""><br/>
+<form method="post" action ="/board/view_after_modify?id={{result.id}}"> 
+    제목 : <input type = "text" name ="modify_subject" value ="{{result.subject}}"><br/>
+    내용 : <input type = "textarea" name ="modify_content" value ="{{result.content}}"><br/>
     
     <button><a href = "/board/main_board" >글 수정 취소</a></button>
     <input type = "submit" value="글 수정 완료">

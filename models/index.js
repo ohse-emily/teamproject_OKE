@@ -5,6 +5,7 @@ const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 const User = require('./users')
 const Board = require('./board')
+const Comment = require('./comment');
 
 let sequelize;
 if (config.use_env_variable) {
@@ -17,6 +18,8 @@ db.User = User;
 User.init(sequelize);
 db.Board = Board;
 Board.init(sequelize);
+db.Comment=Comment;
+Comment.init(sequelize);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

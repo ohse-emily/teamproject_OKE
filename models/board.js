@@ -7,7 +7,6 @@ module.exports = class Board extends Sequelize.Model{
             userid:{
                 type:Sequelize.STRING(30),
                 allowNull:false,
-                unique:true,
             },
             subject:{
                 type:Sequelize.STRING(100),
@@ -24,6 +23,7 @@ module.exports = class Board extends Sequelize.Model{
             like:{
                 type:Sequelize.INTEGER(11),
                 allowNull:false,
+                defaultValue:'0'
             },
             hit:{
                 type:Sequelize.INTEGER(11),

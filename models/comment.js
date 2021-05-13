@@ -7,7 +7,6 @@ module.exports = class Comment extends Sequelize.Model{
             userid:{
                 type:Sequelize.STRING(30),
                 allowNull:false,
-                unique:true,
             },
             userimage:{
                 type:Sequelize.STRING(100),

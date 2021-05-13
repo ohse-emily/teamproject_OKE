@@ -1,11 +1,24 @@
-view.html
 
-    글쓴이 : <input type = "text" name = "userid" ><br/>
-    제목 : <input type = "text" name ="write_subject">{{subject}}<br/>
-    내용 : <input type = "textarea" name ="write_content">{{content}}<br/>
-    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+</head>
+<body>
+    <h2>view.html</h2>
+    글쓴이 : <input type = "text" name = "userid" value="{{userid}}"><br/>
+    제목 : <input type = "text" name ="write_subject" value="{{subject}}"><br/>
+    내용 : <input type = "textarea" name ="write_content" value ="{{content}}"><br/>
+    댓글 : <input type ="text" id = "comment" name ="comment"  >
+    <input type="button" id="btn" value="확인" name="comment_btn"> 
+     <br/>
+
     <button><a href = "/board/main_board" >메인으로 가기</a></button>
-    <button><a href = "/board/modify" >수정하기</a></button>
-    <button><a href = "/board/delete" >삭제하기</a></button>
-
-
+    <button><a href = "/board/modify?id={{id}}" >수정하기</a></button>
+    <button><a href = "/board/remove?id={{id}}" >삭제하기</a></button>
+</body>
+</html>

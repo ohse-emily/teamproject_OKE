@@ -5,19 +5,21 @@ info html 입니다.
         <td>아이디</td>
         <td>패스워드</td>
         <td>이름</td>
-        <td>성별</td>
         <td>이미지</td>
-        <td>등록일</td>
+        <td>휴대폰번호</td>
+        <td>이메일</td>
+        <td>가입날짜</td>
     </tr>
-    {% for item in userlist %}
+
     <tr>
-        <td>{{item.dataValues.id}}</td>
-        <td>{{item.dataValues.userid}}</td>
-        <td>{{item.dataValues.userpw}}</td>
-        <td>{{item.dataValues.username}}</td>
-        <td>{{item.dataValues.gender}}</td>
-        <td>{{item.dataValues.userimage}}</td>
-        <td>{{item.dataValues.userdt}}</td>
+        <td>{{userlist.dataValues.id}}</td>
+        <td>{{userlist.dataValues.userid}}</td>
+        <td>{{userlist.dataValues.userpw}}</td>
+        <td>{{userlist.dataValues.username}}</td>
+        <td>{{userlist.dataValues.userimage}}</td>
+        <td>{{userlist.dataValues.mobile}}</td>
+        <td>{{userlist.dataValues.useremail}}</td>
+        <td>{{userlist.dataValues.userdt}}</td>
     </tr>
-    {% endfor %}
+    <a href ="/board/main_board">메인 페이지로 가기</a>
 </table>

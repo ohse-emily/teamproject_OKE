@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+    <h2>MAIN PAGE</h2>
     <table>
         <tr>
             <td>NO.</td>
@@ -17,17 +18,21 @@
             <td>좋아요</td>
             <td>조회수</td>
         </tr>
+        {% for item in result %}
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>            
-            <td></td>
+            <td>{{item.dataValues.id}}</td>
+            <td><a href ="/board/view?id={{item.dataValues.id}}">{{item.dataValues.subject}}</a></td>
+            <td>{{item.dataValues.userid}}</td>
+            <td>{{item.dataValues.content}}</td>
+            <td>{{item.dataValues.date}}</td>
+            <td>{{item.dataValues.like}}</td>            
+            <td>{{item.dataValues.hit}}</td>
         </tr>
+        {% endfor %}
     </table>
     <a href = "/board/write"> 글쓰기 </a>
+    <a href = "/user/info">나의 정보 보기</a> <br/>
+    <a href = "/user/logout"> 로그아웃 </a> <br/>
 
 </body>
 </html>
