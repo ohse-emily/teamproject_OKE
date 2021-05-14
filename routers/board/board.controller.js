@@ -4,6 +4,7 @@ const {Board,User,Comment} = require('../../models')
 
 let main_board = async (req,res)=>{
     let userid = req.query.userid;
+    let flag = req.query.flag;
 
     let result = await Board.findAll({
         order:[['id','DESC']]
@@ -18,7 +19,7 @@ let main_board = async (req,res)=>{
     })
 
     res.render('./board/main_board.html',{
-        userid, result, 
+        userid, result, flag, 
     });
     console.log(result);
 }
@@ -27,9 +28,15 @@ let main_board = async (req,res)=>{
 //      글   쓰   기    WRITE  //
 
 let write = (req,res)=>{
-    
+    let userid = req.session.uid;
+    console.log(userid);
+
+    if(userid==undefined){
+        res.redirect('/board/main_board?flag=0')
+    }else {
     res.render('./board/write.html',{
-    })
+    userid})
+    }
 }
 
 //     write 후  쓴 글 보기 V I E W   //

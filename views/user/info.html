@@ -2,24 +2,36 @@ info html 입니다.
 <table>
     <tr>
         <td>번호</td>
-        <td>아이디</td>
-        <td>패스워드</td>
-        <td>이름</td>
-        <td>이미지</td>
-        <td>휴대폰번호</td>
-        <td>이메일</td>
-        <td>가입날짜</td>
+        <td>{{id}}</td>
     </tr>
-
     <tr>
-        <td>{{userlist.dataValues.id}}</td>
-        <td>{{userlist.dataValues.userid}}</td>
-        <td>{{userlist.dataValues.userpw}}</td>
-        <td>{{userlist.dataValues.username}}</td>
-        <td>{{userlist.dataValues.userimage}}</td>
-        <td>{{userlist.dataValues.mobile}}</td>
-        <td>{{userlist.dataValues.useremail}}</td>
-        <td>{{userlist.dataValues.userdt}}</td>
+        <td>아이디</td>
+        <td>{{userid}}</td>
     </tr>
+    <tr>
+        <td>패스워드</td>
+        <td>{{userpw}}</td>
+    </tr>
+    <tr>
+        <td>이름</td>
+        <td>{{username}}</td>
+    </tr>
+    <tr>
+        <td>이미지</td>
+        <td><img src ="http://localhost:3000/{{userimage}}"></td>
+    </tr>
+    <tr>
+        <td>휴대폰번호</td>
+        <td>{{mobile}}</td>
+    </tr>
+    <tr>
+        <td>이메일</td>
+        <td>{{useremail}}</td>
+    </tr>
+    <tr>
+        <td>가입날짜</td>
+        <td>{{userdt}}</td>
+    </tr>
+    <a href="/user/info_modify?id={{id}}">내 정보 수정하기</a>
     <a href ="/board/main_board">메인 페이지로 가기</a>
 </table>

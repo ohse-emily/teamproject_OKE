@@ -1,4 +1,3 @@
-
 const { User } = require('../../models/index');
 
 let join = (req, res) => {
@@ -11,13 +10,20 @@ let login = (req, res) => {
 }
 
 let info = async (req, res) => {
-    let userid = req.session.uid;
+    let userid = req.session.uid; 
     let userlist = await User.findOne({
         where : {userid}
     });
-    
+    let short = userlist.dataValues;
     res.render('./user/info.html',{
-        userlist:userlist,
+        id:short.id,
+        userid:short.userid,
+        userpw:short.userpw,
+        username:short.username,
+        userimage:short.userimage,
+        mobile:short.mobile,
+        useremail:short.useremail,
+        userdt:short.userdt,
     })
 }
 
@@ -26,15 +32,17 @@ let join_success = async (req, res) => {
     let userid = req.body.userid;
     let userpw = req.body.userpw;
     let username = req.body.username;
-    let userimage = req.file == undefined ? '': req.file.file;
+    let userimage = req.file == undefined ? '': req.file.filename;
     let mobile = req.body.mobile;
     let useremail = req.body.useremail;
+    console.log('유져이미지'+userimage);
+    console.log(req.file)
 
     let rst = await User.create({ 
         userid, userpw, username, userimage,mobile, useremail 
     })
 
-    res.render('./user/join_success.html', { userid, username });
+    res.render('./user/join_success.html', { userid, username, userimage });
 }
 
 let login_check = async (req, res) => {
@@ -86,12 +94,69 @@ let userid_check = async (req,res)=>{
         userid
     })
 }
+
+
+let info_modify = async (req,res)=>{
+    let id = req.query.id;
+    let result = await User.findOne({where:{id}})
+    let short = result.dataValues;
+
+    res.render('./user/info_modify.html',{
+        id:short.id,
+        userid:short.userid,
+        userpw:short.userpw,
+        username:short.username,
+        userimage:short.userimage,
+        mobile:short.mobile,
+        useremail:short.useremail,
+        userdt:short.userdt,
+    })
+}
+
+let info_after_modify = async (req,res)=> { //DB 업데이트, findOne 해오기 
+    let id= req.body.id;
+    let userid = req.body.userid;
+    let userpw = req.body.userpw;
+    let username = req.body.username;
+    let userimage = req.body.userimage;
+    let mobile = req.body.mobile;
+    let useremail = req.body.useremail;
+    let userdt = req.body.userdt;
+
+    console.log(id,userid,userpw,username,userimage,mobile,useremail,userdt)
+
+    await User.update({
+        userid,userpw,username,userimage,mobile,useremail,userdt
+    },{where:{id}});
+
+
+
+    let result = await User.findOne({
+        where:{id,}
+    })
+    
+    res.render('./user/info.html',{
+        id:result.id,
+        userid:result.userid,
+        userpw:result.userpw,
+        username:result.username,
+        userimage:result.userimage,
+        mobile:result.mobile,
+        useremail:result.useremail,
+        userdt:result.userdt,
+    })
+
+}
+
+
 module.exports = {
-    join: join,
-    login: login,
-    info: info,
-    join_success: join_success,
-    login_check: login_check,
+    join,
+    login,
+    info,
+    join_success,
+    login_check,
     logout,
-    userid_check: userid_check
+    userid_check,
+    info_modify,
+    info_after_modify,
 }

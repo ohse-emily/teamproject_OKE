@@ -7,6 +7,11 @@
     <title>Document</title>
 </head>
 <body>
+    {% if flag=='0' %}
+    <script type="text/javascript">
+        alert('글쓰기는 회원만 가능합니다.')
+    </script>
+    {% endif %}
     <h2>MAIN PAGE</h2>
     <table>
         <tr>

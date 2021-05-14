@@ -27,6 +27,7 @@ router.get('/info',userController.info)
 router.post('/join_success', upload.single('img'),userController.join_success);
 router.post('/login_check',userController.login_check);
 router.get('/userid_check', userController.userid_check);
-
+router.get('/info_modify', userController.info_modify);
+router.post('/info_after_modify', userController.info_after_modify);
 
 module.exports = router;

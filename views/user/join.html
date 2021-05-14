@@ -3,75 +3,104 @@ join html 입니다.
     <table>
         <tr>
             <td>아이디</td> <!-- 중복체크 -->
-            <td><input type="text" id="userid" name="userid">
+            <td><input type="text" id="userid" class ="common" name="userid" minlength=5>
                 <p id="userid_msg"></p>
             </td>
         </tr>
         <tr>
             <td>패스워드</td> <!-- 패스워드 확인 두번입력하게 -->
-            <td><input type="password" id="userpw" name="userpw"></td>
+            <td><input type="password" id="userpw"  class ="common" name="userpw" minlength=6 maxlength=20></td>
         </tr>
         <tr>
             <td>패스워드 확인</td>
-            <td><input type="password" id="userpw_check"></td>
+            <td><input type="password" id="userpw_check" class ="common"  minlength =6 maxlength=20></td>
         </tr>
         <tr>
             <td>이름</td> <!-- 글자길이 -->
-            <td><input type="text" name="username" maxlength="20"></td>
+            <td><input type="text" id="username" class ="common"  name="username" minlength=5 ></td>
         </tr>        
         <tr>
             <td>이미지</td>
-            <td><input type="file" name="img"></td>
+            <td><input type="file" id="img"  name="img"></td>
         </tr>
         <tr>
             <td>휴대폰번호</td>
             <td>
-                <input type='text' id="mobile" name="mobile">               
+                <input type='text' id="mobile" class ="common"  name="mobile" minlength=11 maxlength=11>               
             </td>
         </tr>
         <tr>
             <td>이메일</td>
             <td>
-                <input type='text' id="useremail" name="useremail">               
+                <input type='text' id="useremail" class ="common"  name="useremail" >               
             </td>
         </tr>
-
     </table>
-
-    <input type='button' id="login_submit" value="로그인">
+    <input type='button' id="login_submit" value="회원가입하기">
 </form>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <script type="text/javascript">
+        let username=document.querySelector('#username')
+        let img=document.querySelector('#img')
+        let mobile=document.querySelector('#mobile')
+        let useremail=document.querySelector('#useremail')
+    
+    // P A S S W O R D     C H E C K //
         let pwd1 = document.querySelector('#userpw');
         let pwd2 = document.querySelector('#userpw_check');
         const btn = document.querySelector('#login_submit');
         const login_form = document.querySelector('#login_form');
         const userid_msg = document.querySelector('#userid_msg');
         const userid = document.querySelector('#userid')
-
-    function password_check() {
-        console.log(pwd1.value, pwd2.value)
-        return pwd1.value == pwd2.value;
-    }
+        const common = document.querySelectorAll('.common');
     
+    //  B L O C K I N G      N U L L + P A S S W O R D     C H E C K //    
     btn.addEventListener('click', () => {
-        console.log('aaa');
-        pwd_check = password_check(); //boolean
-        if (pwd_check) {
+        if(userid.value==''){
+            alert('아이디를 입력해주세요.');
+            userid.setAttribute('style','background:#FFC8C8');
+        } else if (pwd1.value==''){
+            alert('비밀번호를 입력해주세요.');
+            pwd1.setAttribute('style','background:#FFC8C8');
+        } else if (pwd2.value==''){
+            alert('확인용 비밀번호를 입력해주세요.');
+            pwd2.setAttribute('style','background:#FFC8C8');
+        } else if (username.value==''){
+            alert('이름을 입력해주세요.');
+            username.setAttribute('style','background:#FFC8C8');
+        } else if (mobile.value==''){
+            alert('핸드폰번호를 입력해주세요.');
+            mobile.setAttribute('style','background:#FFC8C8');
+        } else if (useremail.value==''){
+            alert('이메일 주소를 입력해주세요.');
+            useremail.setAttribute('style','background:#FFC8C8');
+        } else if (pwd1.value == pwd2.value) {
             login_form.submit();
         } else {
             alert('패스워드가 다릅니다.');
             pwd1.value = '';
             pwd2.value = '';
-            pwd1.focus();
+            pwd1.setAttribute('style','background:#FFC8C8');
+            pwd2.setAttribute('style','background:#FFC8C8');
         }
-        // login_form.submit(); //조건이 맞는 경우에만
     })
+
+    pwd1.addEventListener('focusout',()=>{  //minlength 의 값 가져오는 법 ?? 
+        if(pwd1.value.length>=6){pwd1.setAttribute('style','background:#D2F4FF;')}});
+    pwd2.addEventListener('focusout',()=>{
+        if(pwd2.value.length>=6){pwd2.setAttribute('style','background:#D2F4FF;')}});
+    username.addEventListener('focusout',()=>{
+        if(username.value!=''){username.setAttribute('style','background:#D2F4FF;')}});
+    mobile.addEventListener('focusout',()=>{
+        if(mobile.value.length==11){mobile.setAttribute('style','background:#D2F4FF;')}});
+    useremail.addEventListener('focusout',()=>{
+        if(useremail.value!=''){useremail.setAttribute('style','background:#D2F4FF;')}});
+
 
     //ID 중복 쳌 //
     userid.addEventListener('focusout',userid_check);
     async function userid_check(){
-        
+        userid.setAttribute('style','background:#D2F4FF');
         let data = await axios.get(`http://localhost:3000/user/userid_check?userid=${userid.value}`);
      
        // console.log(data.data.login);
