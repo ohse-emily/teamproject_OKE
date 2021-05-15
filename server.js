@@ -27,7 +27,7 @@ app.use(session({
     }
 }))
 
-sequelize.sync({force:false})
+sequelize.sync({force:true})
 .then(()=>{console.log('접속 완료')})
 .catch(()=>{console.log('접속 실패 ')})
 

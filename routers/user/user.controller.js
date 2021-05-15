@@ -6,7 +6,7 @@ let join = (req, res) => {
 
 let login = (req, res) => {
     let flag = req.query.flag;
-    res.render('./user/login.html',{ flag })
+    res.render('./user/login.html',{flag,})
 }
 
 let info = async (req, res) => {

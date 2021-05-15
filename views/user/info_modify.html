@@ -1,5 +1,5 @@
 info_modify html 입니다.
-<form method="post" action="/user/info_after_modify">
+<form id="info_modify_form" method="post" action="/user/info_after_modify">
 <table>
     <tr>
         <td style="display: none">번호</td>
@@ -11,11 +11,13 @@ info_modify html 입니다.
     </tr>
     <tr>
         <td>패스워드</td>
-        <td><input type="text" name="userpw" value="{{userpw}}" minlength="6"></td>
+        <td><input type="password" id="pwd1" name="userpw" value="{{userpw}}" minlength="6"></td>
+        <td id="pwd1_msg"> </td>
     </tr>
     <tr>
         <td>패스워드 확인</td>
-        <td><input type="text" name="userpw_check" value="{{userpw}}" minlength="6"></td>
+        <td><input type="password" id="pwd2"  name="userpw_check" value="{{userpw}}" minlength="6"></td>
+        <td id="pwd2_msg"> </td>
     </tr>
     <tr>
         <td>이름</td>
@@ -27,7 +29,8 @@ info_modify html 입니다.
     </tr>
     <tr>
         <td>휴대폰번호</td>
-        <td><input type="text" name="mobile" value="{{mobile}}" minlength="11" maxlength="11"></td>
+        <td><input type="text" id="mobile" name="mobile" value="{{mobile}}" minlength="11" maxlength="11"></td>
+        <td id="mobile_msg"></td>
     </tr>
     <tr>
         <td>이메일</td>
@@ -35,10 +38,65 @@ info_modify html 입니다.
     </tr>
     <tr>
         <td>가입날짜</td>
-        <td><input type="text" name="userdt" value="{{userdt}}"></td>
+        <td><input type="text" name="userdt" value="{{userdt}}" readonly></td>
     </tr>
 </table>
-<input type="submit" value= "내 수정 완료">
+<input type="button" id ="info_modify_submit" value= "내 수정 완료">
 <a href="/user/info">뒤로가기</a>
 <a href ="/board/main_board">메인 페이지로 가기</a>
 </form>
+<script type="text/javascript">
+    let pwd1=document.querySelector('#pwd1');
+    let pwd2=document.querySelector('#pwd2');
+    let mobile=document.querySelector('#mobile');
+    let pwd1_msg=document.querySelector('#pwd1_msg');
+    let pwd2_msg=document.querySelector('#pwd2_msg');
+    let mobile_msg=document.querySelector('#mobile_msg');
+
+    let submit_btn=document.querySelector('#info_modify_submit');
+    let info_modify_form=document.querySelector('#info_modify_form');
+    
+    submit_btn.addEventListener('click',()=>{
+        if(pwd1.value.length<6){
+            pwd1_msg.innerHTML='패스워드는 최소 6자 이상입니다.';
+            pwd1.focus();
+            pwd1.setAttribute('style', 'background:#FFC8C8');
+        }else if (pwd2.value.length<6){
+            pwd2_msg.innerHTML='패스워드는 최소 6자 이상입니다.';
+            pwd2.focus();
+            pwd2.setAttribute('style', 'background:#FFC8C8');
+        }else if(pwd1.value!=pwd2.value){
+            pwd2_msg.innerHTML='패스워드가 일치하지 않습니다.';
+            pwd1.focus();
+            pwd1.setAttribute('style', 'background:#FFC8C8');
+            pwd2.setAttribute('style', 'background:#FFC8C8');
+        }else if(mobile.value.length<11){
+            mobile_msg.innerHTML='핸드폰 번호 11자리를 입력해주세요.';
+            mobile.setAttribute('style', 'background:#FFC8C8');
+        }else{
+        info_modify_form.submit();
+        }
+    })
+
+    pwd1.addEventListener('focusout',()=>{
+        if(pwd1.value.length>=6){
+            pwd1_msg.innerHTML='';
+            pwd2.setAttribute('style', 'background:#fff');
+        }})
+        
+    pwd2.addEventListener('focusout',()=>{
+        if(pwd2.value.length>=6&&pwd1.value==pwd2.value){
+            pwd2_msg.innerHTML='';
+            pwd1.setAttribute('style', 'background:#fff');
+            pwd2.setAttribute('style', 'background:#fff');
+        }})
+        
+    mobile.addEventListener('focusout',()=>{
+        if(mobile.value.length>=11){
+            mobile_msg.innerHTML='';
+            mobile.setAttribute('style', 'background:#fff');
+    }})
+
+
+
+</script>

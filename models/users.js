@@ -34,7 +34,7 @@ module.exports = class User extends Sequelize.Model{
                 allowNull:false,
                 defaultValue:Sequelize.NOW,
                 get:function(){
-                    return moment(this.getDataValue('userdt')).format('YYYY-MM-DD')
+                    return moment(this.getDataValue('userdt')).format('HH:mm YYYY-MM-DD')
                 }
             }
         },{

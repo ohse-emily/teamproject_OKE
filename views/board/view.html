@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 </head>
 
 <body>
@@ -23,7 +21,7 @@
 
     <input type="hidden" name="boardid" id="boardid" value="{{id}}"> <!--게시판 글 INDEX 번호-->
     <input type="hidden" name="visiter" id="visiter" value="{{visiter}}"> <!--방문자 (로그인한 아이디)-->
-
+    
     <div id="commentBox">
         <input type="text" id='comm_con' name="comm_con">
         <input type="button" id="comm_cancle" value="취소">
@@ -37,9 +35,7 @@
     <script type="text/javascript">
         const content = document.querySelector('#comm_con'); //댓글textbox
         const boardid = document.querySelector('#boardid'); //id 
-        const userid = 'monkey';   //?
         const comm_submit = document.querySelector('#comm_submit'); //댓글 작성 버튼 
-        const commentBox = document.querySelector('#commentBox');
         const commentlist = document.querySelector('#commentlist'); //댓글 달리는 곳 
 
         //댓글 내용이 있을 때만 전송할 수 있게 만들기 
@@ -76,9 +72,11 @@
         // 로그인한 id 본인만 글 수정, 삭제 가능 하도록 
         const modify = document.querySelector('#modify');
         const remove = document.querySelector('#remove');
-        const visiter = document.querySelector('#visiter');
-        const userid = document.querySelector('#userid');
+        const visiter = document.querySelector('#visiter'); //로그인한 userid
+        const userid = document.querySelector('#userid');  //글쓴이 
+
         modify.addEventListener('click',()=>{
+            console.log(visiter.value, '+' , userid.value)
             if(visiter.value!=userid.value){
                 alert('글 작성자만 수정할 수 있습니다.');
                 modify.setAttribute('href','')

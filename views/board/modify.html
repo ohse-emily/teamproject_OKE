@@ -8,8 +8,11 @@
 </head>
 <body>
     <h2>modify.html</h2>
-    <form method="post" id="modify_form" action ="/board/view_after_modify?id={{result.id}}&hit={{hit}}"> 
+    <form method="post" id="modify_form" action ="/board/view_after_modify"> 
         <button type="submit" id="blocking_enter" style="display:none" disabled></button> <!--엔터치면 제목,내용없이 작성되는 것 방지-->
+        <input name="id" value="{{result.id}}" style="display:none"> <!--index번호-->
+        글쓴이 : <input name="writer" value="{{result.userid}}" readonly><br/>
+        조회수 : <input name ="hit" value="{{hit}}" readonly ><br/> <!--조회수-->
         제목 : <input id="modify_subject" type = "text" name ="modify_subject" value ="{{result.subject}}"><br/>
         내용 : <input id="modify_content" type = "textarea" name ="modify_content" value ="{{result.content}}"><br/>
         

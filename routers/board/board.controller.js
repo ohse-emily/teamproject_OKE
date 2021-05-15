@@ -3,36 +3,32 @@ const {Board,User,Comment} = require('../../models')
 // M A I N B O A R D   ㅁ  ㅔ  인 // 
 
 let main_board = async (req,res)=>{
-    // let userid = req.session.uid; //비회원 : undefined // 회원: userid 
-    let flag = req.query.flag;
+    let userid = req.session.uid; //비회원 : undefined // 회원: userid 
+    let flag = req.query.flag;   // 비회원only
     let login_flag=req.query.login_flag; //비회원only
-
     let result = await Board.findAll({
         order:[['id','DESC']]
     })
-
-    let board_length = result.length;  // numbering 
-    let index=board_length; //17
+    //let board_length = result.length;  // numbering 
+    let index= result.length;
     result.forEach((ele)=>{
         if(index>0){
         ele.dataValues.numbering = index;}
         index--;
     })
-    
+
     res.render('./board/main_board.html',{
-        result, flag, login_flag,
+        result, login_flag, userid, flag,
     });
-    console.log(result);
 }
 
 //      글   쓰   기    WRITE  //
 
 let write = (req,res)=>{
     let userid = req.session.uid;
-    console.log(userid);
 
     if(userid==undefined){
-        res.redirect('/board/main_board?flag=0')
+        res.redirect('/board/main_board?login_flag=0&flag=0')
     }else {
     res.render('./board/write.html',{
     userid})
@@ -65,11 +61,10 @@ let view_after_write = async (req,res)=>{
 
 let view = async (req,res)=>{
     let id = req.query.id;  //ok
-    let visiter = req.query.vister; //로그인한 아이디 ( ≠ 글쓴이) //비회원 = undefined
+    let visiter = req.query.visiter; // 로그인한 아이디 ( ≠ 글쓴이) //비회원 = undefined
     let hit_count = await Board.findOne({
         where:{id}
     })
-
     await Board.update({
         hit:hit_count.hit+1,
     },{where:{id}})
@@ -83,8 +78,8 @@ let view = async (req,res)=>{
         subject:result.subject,
         content:result.content,
         id:result.id,
-        visiter,  
         hit:result.hit,
+        visiter,  
     })
 }
 
@@ -96,7 +91,6 @@ let modify = async (req,res)=>{
     let result = await Board.findOne({
         where:{id}
     })
-    console.log(result)
     res.render('./board/modify.html',{
         result,hit,
     })
@@ -106,16 +100,17 @@ let modify = async (req,res)=>{
 //     수정   이후   view   //
 
 let view_after_modify = async (req,res)=>{
-    let id = req.query.id;
+    let id = req.body.id;
     let subject = req.body.modify_subject;
     let content = req.body.modify_content;
-    let hit = req.query.hit;
+    let hit = req.body.hit;
+    let visiter=req.session.uid;
 
     await Board.update({
         subject,content,
     },{
         where:{id}
-    })
+    })  //여기서 조회수 -1을 해ㅑㅇ하나.. 
 
     let result = await Board.findOne({
         where:{id}
@@ -127,6 +122,7 @@ let view_after_modify = async (req,res)=>{
         subject: result.subject,
         content: result.content,
         hit,
+        visiter,
     })
 }
 
