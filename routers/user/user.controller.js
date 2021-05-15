@@ -57,10 +57,10 @@ let login_check = async (req, res) => {
         res.redirect('/user/login?flag=0')
     } else {//로그인 성공했을 떄
 
-        req.session.uid = userid;
+        req.session.uid = userid;  //server에 login userid 저장 
         req.session.isLogin = true;
         req.session.save(() => {
-            res.redirect(`/board/main_board?userid=${userid}`);
+            res.redirect(`/board/main_board`);
         })
     }
 }

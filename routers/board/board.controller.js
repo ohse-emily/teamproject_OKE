@@ -3,27 +3,27 @@ const {Board,User,Comment} = require('../../models')
 // M A I N B O A R D   ㅁ  ㅔ  인 // 
 
 let main_board = async (req,res)=>{
-    let userid = req.query.userid;
+    // let userid = req.session.uid; //비회원 : undefined // 회원: userid 
     let flag = req.query.flag;
+    let login_flag=req.query.login_flag; //비회원only
 
     let result = await Board.findAll({
         order:[['id','DESC']]
     })
 
-    let board_length = result.length;
-    let index=board_length;
+    let board_length = result.length;  // numbering 
+    let index=board_length; //17
     result.forEach((ele)=>{
         if(index>0){
         ele.dataValues.numbering = index;}
         index--;
     })
-
+    
     res.render('./board/main_board.html',{
-        userid, result, flag, 
+        result, flag, login_flag,
     });
     console.log(result);
 }
-
 
 //      글   쓰   기    WRITE  //
 
@@ -46,7 +46,7 @@ let view_after_write = async (req,res)=>{
     let subject = req.body.write_subject;
     let content = req.body.write_content;
     let hit=0;
-
+    console.log(userid, subject, content, )
     let result = await Board.create({
         userid,
         subject, 
@@ -65,7 +65,7 @@ let view_after_write = async (req,res)=>{
 
 let view = async (req,res)=>{
     let id = req.query.id;  //ok
-    let visiter = req.query.vister; //로그인한 아이디 ( ≠ 글쓴이)
+    let visiter = req.query.vister; //로그인한 아이디 ( ≠ 글쓴이) //비회원 = undefined
     let hit_count = await Board.findOne({
         where:{id}
     })
@@ -83,7 +83,7 @@ let view = async (req,res)=>{
         subject:result.subject,
         content:result.content,
         id:result.id,
-        visiter,
+        visiter,  
         hit:result.hit,
     })
 }

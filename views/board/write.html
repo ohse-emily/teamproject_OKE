@@ -6,24 +6,19 @@ write.html
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!--script type="text/javascript" src='/res/smarteditor/js/HuskyEZCreator.js'></script-->
-
 </head>
 <body>
-    <form id = "write_form" method="post" action ="/board/view_after_write" enctype="multipart/form-data"> 
+    <form id = "write_form" method="post" action ="/board/view_after_write"> 
         <button type="submit" id="blocking_enter" style="display:none" disabled></button> <!--엔터치면 제목,내용없이 작성되는 것 방지-->
-        
         제목 : <input id="write_subject" type = "text" name ="write_subject"><br/>
+        <p id="subject_msg"></p>
         내용 : <input id="write_content" type = "textarea" name ="write_content"><br/>
-
+        <p id="content_msg"></p>
         <button><a href = "/board/main_board" >글 작성 취소</a></button>
         <input id="btn" type = "button" value="글 작성 완료">
     </form>
     
     <script type="text/javascript">
-
-        
-        //제목, 내용 입력사항 없으면 alert 
         let btn=document.querySelector('#btn');
         btn.addEventListener('click',checking);
 
@@ -33,18 +28,26 @@ write.html
         function checking(){
             if(write_subject.value==''){
                 alert('제목을 입력해주세요');
+                write_subject.setAttribute('style','background:#FFC8C8')
+                wrtie_subject.focus();
             }else if(write_content.value==''){
                 alert('내용을 입력해주세요.')
+                write_subject.setAttribute('style','background:#FFC8C8')
+                wrtie_subject.focus();
             }else{
                 write_form.submit();
             }
         }
-
-        function blocking_enter(){
-            if(window.event.keyCode==13){
-                
+        write_subject.addEventListener('focusout', ()=>{
+            if(write_subject.value!=''){
+                write_subject.setAttribute('style','background:#D2F4FF')
             }
-        }
+        })
+        write_content.addEventListener('focusout', ()=>{
+            if(write_content.value!=''){
+                write_content.setAttribute('style','background:#D2F4FF')
+            }
+        })
 
     </script>
 </body>

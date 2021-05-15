@@ -11,10 +11,10 @@
 
 <body>
     <h2>view.html</h2>
-    글쓴이 : <input type="text" id="userid" name="userid" value="{{userid}}"><br />
-    조회수 : <input type="number" id="hit" name="hit" value={{hit}}><br/>
-    제목 : <input type="text" name="write_subject" value="{{subject}}"><br />
-    내용 : <input type="textarea" name="write_content" value="{{content}}"><br />
+    글쓴이 : <input type="text" id="userid" name="userid" value="{{userid}}" readonly><br />
+    조회수 : <input type="number" id="hit" name="hit" value={{hit}} readonly><br/>
+    제목 : <input type="text" name="write_subject" value="{{subject}}" readonly><br />
+    내용 : <input type="textarea" name="write_content" value="{{content}}" readonly><br />
     <br />
 
     <button><a href="/board/main_board">메인으로 가기</a></button>
@@ -77,15 +77,15 @@
         const modify = document.querySelector('#modify');
         const remove = document.querySelector('#remove');
         const visiter = document.querySelector('#visiter');
-        const writer = document.querySelector('#userid');
+        const userid = document.querySelector('#userid');
         modify.addEventListener('click',()=>{
-            if(visiter.value!=writer.value){
+            if(visiter.value!=userid.value){
                 alert('글 작성자만 수정할 수 있습니다.');
                 modify.setAttribute('href','')
             }
         })
         remove.addEventListener('click',()=>{
-            if(visiter.value!=writer.value){
+            if(visiter.value!=userid.value){
                 alert('글 작성자만 삭제할 수 있습니다.');
                 remove.setAttribute('href','')
             }

@@ -26,7 +26,7 @@
         {% for item in result %}
         <tr>
             <td>{{item.dataValues.numbering}}</td>
-            <td><a href ="/board/view?id={{item.dataValues.id}}&vister={{userid}}">{{item.dataValues.subject}}</a></td>
+            <td><a href ="/board/view?id={{item.dataValues.id}}&vister=">{{item.dataValues.subject}}</a></td>
             <td>{{item.dataValues.userid}}</td>
             <td>{{item.dataValues.content}}</td>
             <td>{{item.dataValues.date}}</td>
@@ -36,8 +36,9 @@
         {% endfor %}
     </table>
     <a href = "/board/write"> 글쓰기 </a>
+    {% if login_flag!="0" %}   <!--비회원경우 로그아웃, 나의 정보보기 안보이게 -->
     <a href = "/user/info">나의 정보 보기</a> <br/>
     <a href = "/user/logout"> 로그아웃 </a> <br/>
-
+    {% endif %}
 </body>
 </html>

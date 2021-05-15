@@ -4,9 +4,10 @@
     <a href="/user/info?userid={{userid}}">회원정보</a>
     <a href="/user/logout">로그아웃</a>
     
-
 {% else %}
     <a href="/user/join">회원가입</a>
     <a href="/user/login">로그인</a>
-    <a href="/board/main_board">비회원으로 구경하기</a>
+    <a href="/board/main_board?login_flag=0">비회원으로 구경하기</a>
 {% endif %}
+
+
