@@ -1,123 +1,125 @@
-const {Board,User,Comment} = require('../../models')
+const { Board, User, Comment } = require('../../models')
 
 // M A I N B O A R D   ㅁ  ㅔ  인 // 
 
-let main_board = async (req,res)=>{
+let main_board = async (req, res) => {
     let userid = req.session.uid; //비회원 : undefined // 회원: userid 
     let flag = req.query.flag;   // 비회원only
-    let login_flag=req.query.login_flag; //비회원only
+    let login_flag = req.query.login_flag; //비회원only
     let result = await Board.findAll({
-        order:[['id','DESC']]
+        order: [['id', 'DESC']]
     })
     //let board_length = result.length;  // numbering 
-    let index= result.length;
-    result.forEach((ele)=>{
-        if(index>0){
-        ele.dataValues.numbering = index;}
+    let index = result.length;
+    result.forEach((ele) => {
+        if (index > 0) {
+            ele.dataValues.numbering = index;
+        }
         index--;
     })
 
-    res.render('./board/main_board.html',{
+    res.render('./board/main_board.html', {
         result, login_flag, userid, flag,
     });
 }
 
 //      글   쓰   기    WRITE  //
 
-let write = (req,res)=>{
+let write = (req, res) => {
     let userid = req.session.uid;
 
-    if(userid==undefined){
+    if (userid == undefined) {
         res.redirect('/board/main_board?login_flag=0&flag=0')
-    }else {
-    res.render('./board/write.html',{
-    userid})
+    } else {
+        res.render('./board/write.html', {
+            userid
+        })
     }
 }
 
 //     write 후  쓴 글 보기 V I E W   //
 
-let view_after_write = async (req,res)=>{
+let view_after_write = async (req, res) => {
     let userid = req.session.uid;
     let subject = req.body.write_subject;
     let content = req.body.write_content;
-    let hit=0;
-    console.log(userid, subject, content, )
+    let hit = 0;
+    console.log(userid, subject, content,)
     let result = await Board.create({
         userid,
-        subject, 
+        subject,
         content,
     })
 
-    res.render('./board/view.html',{
+    res.render('./board/view.html', {
         userid, subject, content,
-        id:result.id,
-        visiter:userid,  //visiter에 로그인한 본인 넣기 
+        id: result.id,
+        visiter: userid,  //visiter에 로그인한 본인 넣기 
         hit,
     })
 }
 
 //       V I E  W       ////
 
-let view = async (req,res)=>{
+let view = async (req, res) => {
     let id = req.query.id;  //ok
     let visiter = req.query.visiter; // 로그인한 아이디 ( ≠ 글쓴이) //비회원 = undefined
     let hit_count = await Board.findOne({
-        where:{id}
+        where: { id }
     })
     await Board.update({
-        hit:hit_count.hit+1,
-    },{where:{id}})
+        hit: hit_count.hit + 1,
+    }, { where: { id } })
 
     let result = await Board.findOne({
-        where:{id}
+        where: { id }
     })
 
-    res.render('./board/view.html',{
-        userid:result.userid,
-        subject:result.subject,
-        content:result.content,
-        id:result.id,
-        hit:result.hit,
-        visiter,  
+    res.render('./board/view.html', {
+        userid: result.userid,
+        subject: result.subject,
+        content: result.content,
+        id: result.id,
+        hit: result.hit,
+        visiter,
     })
 }
 
 //       수    정      //// 
 
-let modify = async (req,res)=>{
+let modify = async (req, res) => {
     let id = req.query.id;
-    let hit=req.query.hit;
+    let hit = req.query.hit;
     let result = await Board.findOne({
-        where:{id}
+        where: { id }
     })
-    res.render('./board/modify.html',{
-        result,hit,
+    res.render('./board/modify.html', {
+        result, hit,
     })
 }
 
 
 //     수정   이후   view   //
 
-let view_after_modify = async (req,res)=>{
+let view_after_modify = async (req, res) => {
     let id = req.body.id;
     let subject = req.body.modify_subject;
     let content = req.body.modify_content;
     let hit = req.body.hit;
-    let visiter=req.session.uid;
+    let visiter = req.session.uid;
 
     await Board.update({
-        subject,content,
-    },{
-        where:{id}
+        subject, content,
+    }, {
+        where: { id }
     })  //여기서 조회수 -1을 해ㅑㅇ하나.. 
 
     let result = await Board.findOne({
-        where:{id}
+        where: { id }
     })
-    
-    res.render('./board/view.html',{
-        id:result.id,
+
+    res.render('./board/view.html', {
+        id: result.id,
         userid: result.userid,
         subject: result.subject,
         content: result.content,
@@ -128,10 +130,10 @@ let view_after_modify = async (req,res)=>{
 
 //    삭   제     // 
 
-let remove = (req,res)=>{
+let remove = (req, res) => {
     let id = req.query.id;
     Board.destroy({
-        where: {id}
+        where: { id }
     })
 
     res.redirect('/board/main_board')
@@ -168,7 +170,7 @@ let comment_post = async (req, res, next) => {
 
         where: {
             board_id: body.boardid,
-            master_comment:0, 
+            master_comment: 0,
         },
         order: [['id', 'DESC']],
     });
@@ -181,44 +183,44 @@ let comment_post = async (req, res, next) => {
 //     답   글  Reply   //
 let reply_post = async (req, res) => {
     let body = req.body;
-        if(body.content!==undefined){
-            let user = await User.findOne({
-                attributes: ['id'],
-                where: {
-                    userid: req.session.uid,
-                }
-            });
-            let useridx = user.dataValues.id;
-            if (body.comment_id !== undefined) {
-                body.content = '@' + body.comment_id + '  ' + body.content;
+    if (body.content !== undefined) {
+        let user = await User.findOne({
+            attributes: ['id'],
+            where: {
+                userid: req.session.uid,
             }
-    
-            await Comment.create({
-                board_id: body.boardid,
-                useridx: useridx,
-                content: body.content,
-                master_comment: body.master_comment,
-    
-            });
-
-            let replycount = await Comment.findOne({
-                attributes: ['reply_count'],
-                where: {
-                    id:body.master_comment,
-                }
-            }); 
-
-            let replyCount =replycount.dataValues.reply_count+1; 
-            
-            await Comment.update({ 
-                reply_count:replyCount, 
-            },{
-                where: {
-                    id:body.master_comment,
-                }
-            }); 
+        });
+        let useridx = user.dataValues.id;
+        if (body.comment_id !== undefined) {
+            body.content = '@' + body.comment_id + '  ' + body.content;
         }
-        
+
+        await Comment.create({
+            board_id: body.boardid,
+            useridx: useridx,
+            content: body.content,
+            master_comment: body.master_comment,
+
+        });
+
+        let replycount = await Comment.findOne({
+            attributes: ['reply_count'],
+            where: {
+                id: body.master_comment,
+            }
+        });
+
+        let replyCount = replycount.dataValues.reply_count + 1;
+
+        await Comment.update({
+            reply_count: replyCount,
+        }, {
+            where: {
+                id: body.master_comment,
+            }
+        });
+    }
+
     let replyList = await Comment.findAll({
         include: [
             { model: User, }
@@ -237,10 +239,47 @@ let reply_post = async (req, res) => {
 
 }
 
+let check_commentid = async (req, res) => {
+    let commenterid = await Comment.findOne({
+        attributes: ['useridx'],
+        where: {
+            id: req.body.commentid,
+        }
+    }); 
+
+    let comment_idx =commenterid.dataValues.useridx;
+
+    let user = await User.findOne({
+        attributes: ['id'],
+        where: {
+            userid: req.session.uid,
+        }
+    });
+
+    let useridx = user.dataValues.id;
+
+    if (comment_idx == useridx) {
+        res.json({
+            result: true,
+        })
+    } else {
+        res.json({
+            result: false,
+        })
+    }
+}
+
+let delete_comment = async(req,res)=>{    
+    await Comment.delete({ 
+        where: {
+            id: req.body.commentid,
+        }
+    })
+}
 
 
-module.exports={
-  comment_post, reply_post,
-    main_board, write, view, modify, remove, view_after_write,view_after_modify,
+module.exports = {
+    comment_post, reply_post, check_commentid,delete_comment,
+    main_board, write, view, modify, remove, view_after_write, view_after_modify,
 }
 

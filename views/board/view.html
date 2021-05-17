@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +11,7 @@
 <body>
     <h2>view.html</h2>
     글쓴이 : <input type="text" id="userid" name="userid" value="{{userid}}" readonly><br />
-    조회수 : <input type="number" id="hit" name="hit" value={{hit}} readonly><br/>
+    조회수 : <input type="number" id="hit" name="hit" value={{hit}} readonly><br />
     제목 : <input type="text" name="write_subject" value="{{subject}}" readonly><br />
     내용 : <input type="textarea" name="write_content" value="{{content}}" readonly><br />
     <br />
@@ -19,11 +20,13 @@
     <button><a id="modify" href="/board/modify?id={{id}}&hit={{hit}}">수정하기</a></button>
     <button><a id="remove" href="/board/remove?id={{id}}">삭제하기</a></button>
 
-    <input type="hidden" name="boardid" id="boardid" value="{{id}}"> <!--게시판 글 INDEX 번호-->
-    <input type="hidden" name="visiter" id="visiter" value="{{visiter}}"> <!--방문자 (로그인한 아이디)-->
-    
+    <input type="hidden" name="boardid" id="boardid" value="{{id}}">
+    <!--게시판 글 INDEX 번호-->
+    <input type="hidden" name="visiter" id="visiter" value="{{visiter}}">
+    <!--방문자 (로그인한 아이디)-->
+
     <div id="commentBox">
-        <input type="text" id="comm_content" >
+        <input type="text" id="comm_content">
         <input type="button" id="comm_cancle" value="취소">
         <input type="button" id="comm_submit" value="댓글작성">
         <ul id=commentlist>
@@ -41,17 +44,17 @@
         const visiter = document.querySelector('#visiter'); //로그인한 userid
         const userid = document.querySelector('#userid');  //글쓴이 
 
-        modify.addEventListener('click',()=>{
-            console.log(visiter.value, '+' , userid.value)
-            if(visiter.value!=userid.value){
+        modify.addEventListener('click', () => {
+            console.log(visiter.value, '+', userid.value)
+            if (visiter.value != userid.value) {
                 alert('글 작성자만 수정할 수 있습니다.');
-                modify.setAttribute('href','')
+                modify.setAttribute('href', '')
             }
         })
-        remove.addEventListener('click',()=>{
-            if(visiter.value!=userid.value){
+        remove.addEventListener('click', () => {
+            if (visiter.value != userid.value) {
                 alert('글 작성자만 삭제할 수 있습니다.');
-                remove.setAttribute('href','')
+                remove.setAttribute('href', '')
             }
         })
 
@@ -59,7 +62,7 @@
 
 
         ////////    댓글 영역 //////////////////// 
-        
+
         //댓글영역세 사용될 전역변수 
         const content = document.querySelector('#comm_content'); //댓글입력내용
         const boardid = document.querySelector('#boardid');        //게시판 번호
@@ -83,7 +86,7 @@
 
                 commentpost.data.commList.forEach(ele => {
                     const li = document.createElement('li');
-                    const commentid = document.createElement('input');
+
                     const comment_box = document.createElement('div');
                     const comment_userid = document.createElement('span');
                     const comment_date = document.createElement('span');
@@ -94,8 +97,22 @@
                     const reply_cancle = document.createElement('input');
                     const reply_write = document.createElement('input');
 
+                    //수정삭제 박스 만들기 
+                    const comment_action = document.createElement('div');
+                    const comment_actionBtn = document.createElement('input');
+                    comment_actionBtn.setAttribute('type', 'button');
+                    comment_actionBtn.setAttribute('value', '수정삭제');
+                    comment_actionBtn.setAttribute('class', 'comment_actionBtn');
+                    comment_action.appendChild(comment_actionBtn);
+
+                    //댓글 idx 나타내는 부분. 
+                    const commentid = document.createElement('input');
                     commentid.setAttribute('type', 'hidden');
                     commentid.setAttribute('value', `${ele.id}`);
+                    comment_box.appendChild(commentid);
+
+
+
                     comment_userid.innerHTML = ele.User.userid;
                     comment_date.innerHTML = ele.date;
                     comment_content.innerHTML = ele.content;
@@ -112,7 +129,6 @@
                     reply_write.setAttribute('value', '등록');
                     reply_write.setAttribute('class', 'reply_write');
 
-                    comment_box.appendChild(commentid);
                     comment_box.appendChild(comment_userid);
                     comment_box.appendChild(comment_date);
                     comment_box.appendChild(comment_content);
@@ -122,17 +138,18 @@
                     reply_maker.appendChild(reply_cancle);
                     reply_maker.appendChild(reply_write);
 
-                    if(ele.reply_count>0){
-                    const reply_showBtn = document.createElement('input');
-                    const replyList = document.createElement('ul');
-                    reply_showBtn.setAttribute('type', 'button');
-                    reply_showBtn.setAttribute('value', `답글 ${ele.reply_count}개 보기`);
-                    reply_showBtn.setAttribute('class', 'reply_show');
-                    comment_box.appendChild(reply_showBtn);
-                    comment_box.appendChild(replyList);
-                }
+                    if (ele.reply_count > 0) {
+                        const reply_showBtn = document.createElement('input');
+                        const replyList = document.createElement('ul');
+                        reply_showBtn.setAttribute('type', 'button');
+                        reply_showBtn.setAttribute('value', `답글 ${ele.reply_count}개 보기`);
+                        reply_showBtn.setAttribute('class', 'reply_show');
+                        comment_box.appendChild(reply_showBtn);
+                        comment_box.appendChild(replyList);
+                    }
 
                     li.appendChild(comment_box);
+                    li.appendChild(comment_action);
                     commentlist.appendChild(li);
                 });
             }
@@ -147,6 +164,53 @@
         const subBtnarea = document.querySelector('#commentlist');
         subBtnarea.addEventListener('click', testReplaywrite);
         async function testReplaywrite(event) {
+            //수정삭제 버튼을 눌렀을 때, 작성자 id와 로그인한 userid의 id 가 같다면 수정버튼과 삭제버튼을 만들어줌
+            //일치하지 않는다면 수정 삭제를 불가하다는 경고창을 줌. 
+            if (event.path[0].className == "comment_actionBtn") {
+                const comment_action = event.path[0].parentNode;
+                
+                if (comment_action.childNodes.length == 1) {
+                    const commentid = event.path[0].parentNode.previousSibling.firstChild.value;
+                    console.log(commentid); 
+                    let check_commentid = await axios.post('http://localhost:3000/board/check_commentid', {
+                        commentid: commentid,
+                    })
+                    const result = check_commentid.data.result;
+                    if (result) {
+
+                        const updateBtn = document.createElement('input');
+                        const deleteBtn = document.createElement('input');
+                        updateBtn.setAttribute('type', 'button');
+                        updateBtn.setAttribute('value', '수정');
+                        updateBtn.setAttribute('class', 'updateBtn');
+                        deleteBtn.setAttribute('type', 'button');
+                        deleteBtn.setAttribute('value', '삭제');
+                        deleteBtn.setAttribute('class', 'deleteBtn');
+                        comment_action.appendChild(updateBtn);
+                        comment_action.appendChild(deleteBtn);
+
+                    } else {
+                        alert('댓글 작성자만 수정/삭제할 수 있습니다.');
+                    }
+
+                } else{ 
+                    comment_action.removeChild(comment_action.childNodes[2]);
+                    comment_action.removeChild(comment_action.childNodes[1]);
+                }
+
+
+            }
+            //댓글 삭제하기
+            if(event.path[0].className == "deleteBtn"){ 
+                const commentid = event.path[0].parentNode.previousSibling.firstChild.value;
+                let comment_delete = confirm("정말 삭제하시겠습니까?"); 
+                if(comment_delete==true){
+                    let delete_comment = await axios.post('http://localhost:3000/board/delete_comment', {
+                        commentid: commentid,
+                    })
+                }
+            }
+
             // 댓글:답글쓰기 누르면 답글입력창 보여주는 부분 
             if (event.path[0].className == "reply_makeBtn") {
                 event.path[0].parentNode.childNodes[5].style.display = "block";
@@ -165,8 +229,8 @@
             if (event.path[0].className == "reply_reply_cancle") {
                 event.path[0].parentNode.style.display = "none";
             }
-            
-            
+
+
             //답글: 답글보기 버튼을 누르면 답글을 보여주고 답글 숨기기로 바뀌게 하기.  답글 숨기기 누르면 답글 숨기고 답글 보기로 바꾸기 
             if (event.path[0].className == 'reply_show') {
                 const replyBox = event.path[0].nextSibling;
@@ -191,6 +255,19 @@
                     const reply_cancle = document.createElement('input');
                     const reply_write = document.createElement('input');
 
+                    const comment_action = document.createElement('div');
+                    const comment_actionBtn = document.createElement('input');
+                    comment_actionBtn.setAttribute('type', 'button');
+                    comment_actionBtn.setAttribute('value', '수정삭제');
+                    comment_actionBtn.setAttribute('class', 'comment_actionBtn');
+                    comment_action.appendChild(comment_actionBtn);
+
+                    //댓글 idx 나타내는 부분. 
+                    const commentid = document.createElement('input');
+                    commentid.setAttribute('type', 'hidden');
+                    commentid.setAttribute('value', `${ele.id}`);
+                    comment_box.appendChild(commentid);
+
 
                     comment_userid.innerHTML = ele.User.userid;
                     comment_date.innerHTML = ele.date;
@@ -218,14 +295,15 @@
                     reply_maker.appendChild(reply_write);
 
                     li.appendChild(comment_box);
+                    li.appendChild(comment_action);
                     replyBox.appendChild(li);
                 });
                 event.path[0].value = '답글숨기기'
                 event.path[0].className = 'reply_hide'
 
-            }   else if (event.path[0].className == 'reply_hide') {
+            } else if (event.path[0].className == 'reply_hide') {
                 const replyList = event.path[0].nextSibling;
-                let numberOfReply= replyList.childNodes.length;
+                let numberOfReply = replyList.childNodes.length;
                 while (replyList.hasChildNodes()) { replyList.removeChild(replyList.firstChild); }
                 event.path[0].value = `답글 ${numberOfReply}개 보기`
                 event.path[0].className = 'reply_show'
@@ -239,11 +317,11 @@
             if (event.path[0].className == 'reply_write' && event.path[0].parentNode.childNodes[0].value != '') {
                 const reply_content = event.path[0].parentNode.childNodes[0].value;
                 const master_comment = event.path[0].parentNode.parentNode.childNodes[0].value;
-                const comment_box = event.path[0].parentNode.parentNode;   
+                const comment_box = event.path[0].parentNode.parentNode;
 
                 let replyList;
-                let reply_showBtn;             
-                if(comment_box.childNodes.length==6){
+                let reply_showBtn;
+                if (comment_box.childNodes.length == 6) {
                     reply_showBtn = document.createElement('input');
                     replyList = document.createElement('ul');
                     reply_showBtn.setAttribute('type', 'button');
@@ -251,13 +329,13 @@
                     reply_showBtn.setAttribute('class', 'reply_hide');
                     comment_box.appendChild(reply_showBtn);
                     comment_box.appendChild(replyList);
-                }else { 
-                    replyList = comment_box.lastChild; 
-                    reply_showBtn= replyList.previousSibling; 
+                } else {
+                    replyList = comment_box.lastChild;
+                    reply_showBtn = replyList.previousSibling;
                     reply_showBtn.setAttribute('type', 'button');
                     reply_showBtn.setAttribute('value', `답글 숨기기`);
                     reply_showBtn.setAttribute('class', 'reply_hide');
-                while (replyList.hasChildNodes()) { replyList.removeChild(replyList.firstChild); }
+                    while (replyList.hasChildNodes()) { replyList.removeChild(replyList.firstChild); }
 
                 }
 
@@ -266,7 +344,6 @@
                     boardid: boardid.value,
                     master_comment: master_comment,
                 })
-                console.log(replypost.data.replyList); 
 
                 event.path[0].parentNode.childNodes[0].value = '';
 
@@ -282,6 +359,20 @@
                     const reply_cancle = document.createElement('input');
                     const reply_write = document.createElement('input');
 
+                    const comment_action = document.createElement('div');
+                    const comment_actionBtn = document.createElement('input');
+                    comment_actionBtn.setAttribute('type', 'button');
+                    comment_actionBtn.setAttribute('value', '수정삭제');
+                    comment_actionBtn.setAttribute('class', 'comment_actionBtn');
+                    comment_action.appendChild(comment_actionBtn);
+
+                    //댓글 idx 나타내는 부분. 
+                    const commentid = document.createElement('input');
+                    commentid.setAttribute('type', 'hidden');
+                    commentid.setAttribute('value', `${ele.id}`);
+                    comment_box.appendChild(commentid);
+
+
 
                     comment_userid.innerHTML = ele.User.userid;
                     comment_date.innerHTML = ele.date;
@@ -309,20 +400,21 @@
                     reply_maker.appendChild(reply_write);
 
                     li.appendChild(comment_box);
+                    li.appendChild(comment_action);
                     replyList.appendChild(li);
 
                 })
-                
+                event.path[0].parentNode.style.display = "none";
+
 
             }
 
             //답글에 답글을 달 때: 답글 내용이 있다면 데이터베이스에 입력하고 받아와서,해당 댓글의 답글을 전부 뿌려주는 부분.
             if (event.path[0].className == 'reply_reply_write' && event.path[0].parentNode.childNodes[0].value != '') {
                 const reply_content = event.path[0].parentNode.childNodes[0].value;
-                const comment_id = event.path[0].parentNode.parentNode.firstChild.innerHTML;//답글의 대상이 되는 사람의 id
+                const comment_id = event.path[0].parentNode.parentNode.childNodes[1].innerHTML;//답글의 대상이 되는 사람의 id
                 const replyList = event.path[0].parentNode.parentNode.parentNode.parentNode;//ul
                 const master_comment = event.path[0].parentNode.parentNode.parentNode.parentNode.parentNode.firstChild.value
-
 
                 let replypost = await axios.post('http://localhost:3000/board/reply_post', {
                     content: reply_content,
@@ -347,6 +439,20 @@
                     const reply_cancle = document.createElement('input');
                     const reply_write = document.createElement('input');
 
+                    const comment_action = document.createElement('div');
+                    const comment_actionBtn = document.createElement('input');
+                    comment_actionBtn.setAttribute('type', 'button');
+                    comment_actionBtn.setAttribute('value', '수정삭제');
+                    comment_actionBtn.setAttribute('class', 'comment_actionBtn');
+                    comment_action.appendChild(comment_actionBtn);
+
+                    //댓글 idx 나타내는 부분. 
+                    const commentid = document.createElement('input');
+                    commentid.setAttribute('type', 'hidden');
+                    commentid.setAttribute('value', `${ele.id}`);
+                    comment_box.appendChild(commentid);
+
+
 
                     comment_userid.innerHTML = ele.User.userid;
                     comment_date.innerHTML = ele.date;
@@ -374,11 +480,11 @@
                     reply_maker.appendChild(reply_write);
 
                     li.appendChild(comment_box);
+                    li.appendChild(comment_action);
                     replyList.appendChild(li);
                 })
             }
         }
-        // 댓글영역에 대한 클릭이벤트를 설정 end //
 
         // 최초 페이지 로드 되면 댓글을 보여주는 부분. 
         async function comment_show() {
@@ -400,6 +506,14 @@
                 const reply_cancle = document.createElement('input');
                 const reply_write = document.createElement('input');
 
+                const comment_action = document.createElement('div');
+                const comment_actionBtn = document.createElement('input');
+                comment_actionBtn.setAttribute('type', 'button');
+                comment_actionBtn.setAttribute('value', '수정삭제');
+                comment_actionBtn.setAttribute('class', 'comment_actionBtn');
+                comment_action.appendChild(comment_actionBtn);
+
+
                 commentid.setAttribute('type', 'hidden');
                 commentid.setAttribute('value', `${ele.id}`);
                 comment_userid.innerHTML = ele.User.userid;
@@ -417,7 +531,7 @@
                 reply_write.setAttribute('type', 'button');
                 reply_write.setAttribute('value', '등록');
                 reply_write.setAttribute('class', 'reply_write');
-                
+
 
 
                 comment_box.appendChild(commentid);
@@ -429,7 +543,7 @@
                 reply_maker.appendChild(reply_input);
                 reply_maker.appendChild(reply_cancle);
                 reply_maker.appendChild(reply_write);
-                if(ele.reply_count>0){
+                if (ele.reply_count > 0) {
                     const reply_showBtn = document.createElement('input');
                     const replyList = document.createElement('ul');
                     reply_showBtn.setAttribute('type', 'button');
@@ -440,6 +554,7 @@
                 }
 
                 li.appendChild(comment_box);
+                li.appendChild(comment_action);
                 commentlist.appendChild(li);
             });
         }
