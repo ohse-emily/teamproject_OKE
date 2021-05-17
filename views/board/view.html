@@ -93,8 +93,6 @@
                     const reply_input = document.createElement('input');
                     const reply_cancle = document.createElement('input');
                     const reply_write = document.createElement('input');
-                    const reply_showBtn = document.createElement('input');
-                    const replyList = document.createElement('ul');
 
                     commentid.setAttribute('type', 'hidden');
                     commentid.setAttribute('value', `${ele.id}`);
@@ -113,10 +111,6 @@
                     reply_write.setAttribute('type', 'button');
                     reply_write.setAttribute('value', '등록');
                     reply_write.setAttribute('class', 'reply_write');
-                    reply_showBtn.setAttribute('type', 'button');
-                    reply_showBtn.setAttribute('class', 'reply_show');
-                    reply_showBtn.setAttribute('value', '답글보기');
-
 
                     comment_box.appendChild(commentid);
                     comment_box.appendChild(comment_userid);
@@ -127,8 +121,16 @@
                     reply_maker.appendChild(reply_input);
                     reply_maker.appendChild(reply_cancle);
                     reply_maker.appendChild(reply_write);
+
+                    if(ele.reply_count>0){
+                    const reply_showBtn = document.createElement('input');
+                    const replyList = document.createElement('ul');
+                    reply_showBtn.setAttribute('type', 'button');
+                    reply_showBtn.setAttribute('value', `답글 ${ele.reply_count}개 보기`);
+                    reply_showBtn.setAttribute('class', 'reply_show');
                     comment_box.appendChild(reply_showBtn);
                     comment_box.appendChild(replyList);
+                }
 
                     li.appendChild(comment_box);
                     commentlist.appendChild(li);
@@ -163,13 +165,10 @@
             if (event.path[0].className == "reply_reply_cancle") {
                 event.path[0].parentNode.style.display = "none";
             }
-            //답글: 답글보기 버튼을 누르면 답글을 보여주고 답글 숨기기로 바뀌게 하기. 
-
-
-
-
+            
+            
+            //답글: 답글보기 버튼을 누르면 답글을 보여주고 답글 숨기기로 바뀌게 하기.  답글 숨기기 누르면 답글 숨기고 답글 보기로 바꾸기 
             if (event.path[0].className == 'reply_show') {
-                console.log('답글보기 작동');
                 const replyBox = event.path[0].nextSibling;
                 const comment_id = event.path[0].parentNode.childNodes[0].value;
 
@@ -179,7 +178,6 @@
                     master_comment: comment_id,
                 })
 
-                console.log(replypost.data.replyList); 
 
                 replypost.data.replyList.forEach((ele) => {
                     const li = document.createElement('li');
@@ -224,11 +222,12 @@
                 });
                 event.path[0].value = '답글숨기기'
                 event.path[0].className = 'reply_hide'
-                
+
             }   else if (event.path[0].className == 'reply_hide') {
                 const replyList = event.path[0].nextSibling;
+                let numberOfReply= replyList.childNodes.length;
                 while (replyList.hasChildNodes()) { replyList.removeChild(replyList.firstChild); }
-                event.path[0].value = '답글보기'
+                event.path[0].value = `답글 ${numberOfReply}개 보기`
                 event.path[0].className = 'reply_show'
             }
 
@@ -240,12 +239,27 @@
             if (event.path[0].className == 'reply_write' && event.path[0].parentNode.childNodes[0].value != '') {
                 const reply_content = event.path[0].parentNode.childNodes[0].value;
                 const master_comment = event.path[0].parentNode.parentNode.childNodes[0].value;
-                const replyList = event.path[0].parentNode.parentNode.lastChild;//ul
-                console.log(event.path[0]);
-                console.log(event.path[0].parentNode);
-                console.log(event.path[0].parentNode.nextSibling);
-                event.path[0].parentNode.nextSibling.value ='답글 숨기기'
-                event.path[0].parentNode.nextSibling.className ='reply_hide'
+                const comment_box = event.path[0].parentNode.parentNode;   
+
+                let replyList;
+                let reply_showBtn;             
+                if(comment_box.childNodes.length==6){
+                    reply_showBtn = document.createElement('input');
+                    replyList = document.createElement('ul');
+                    reply_showBtn.setAttribute('type', 'button');
+                    reply_showBtn.setAttribute('value', `답글 숨기기`);
+                    reply_showBtn.setAttribute('class', 'reply_hide');
+                    comment_box.appendChild(reply_showBtn);
+                    comment_box.appendChild(replyList);
+                }else { 
+                    replyList = comment_box.lastChild; 
+                    reply_showBtn= replyList.previousSibling; 
+                    reply_showBtn.setAttribute('type', 'button');
+                    reply_showBtn.setAttribute('value', `답글 숨기기`);
+                    reply_showBtn.setAttribute('class', 'reply_hide');
+                while (replyList.hasChildNodes()) { replyList.removeChild(replyList.firstChild); }
+
+                }
 
                 let replypost = await axios.post('http://localhost:3000/board/reply_post', {
                     content: reply_content,
@@ -255,7 +269,6 @@
                 console.log(replypost.data.replyList); 
 
                 event.path[0].parentNode.childNodes[0].value = '';
-                while (replyList.hasChildNodes()) { replyList.removeChild(replyList.firstChild); }
 
                 replypost.data.replyList.forEach((ele) => {
                     const li = document.createElement('li');
@@ -299,6 +312,7 @@
                     replyList.appendChild(li);
 
                 })
+                
 
             }
 
@@ -385,8 +399,6 @@
                 const reply_input = document.createElement('input');
                 const reply_cancle = document.createElement('input');
                 const reply_write = document.createElement('input');
-                const reply_showBtn = document.createElement('input');
-                const replyList = document.createElement('ul');
 
                 commentid.setAttribute('type', 'hidden');
                 commentid.setAttribute('value', `${ele.id}`);
@@ -405,9 +417,7 @@
                 reply_write.setAttribute('type', 'button');
                 reply_write.setAttribute('value', '등록');
                 reply_write.setAttribute('class', 'reply_write');
-                reply_showBtn.setAttribute('type', 'button');
-                reply_showBtn.setAttribute('value', '답글보기');
-                reply_showBtn.setAttribute('class', 'reply_show');
+                
 
 
                 comment_box.appendChild(commentid);
@@ -419,8 +429,15 @@
                 reply_maker.appendChild(reply_input);
                 reply_maker.appendChild(reply_cancle);
                 reply_maker.appendChild(reply_write);
-                comment_box.appendChild(reply_showBtn);
-                comment_box.appendChild(replyList);
+                if(ele.reply_count>0){
+                    const reply_showBtn = document.createElement('input');
+                    const replyList = document.createElement('ul');
+                    reply_showBtn.setAttribute('type', 'button');
+                    reply_showBtn.setAttribute('value', `답글 ${ele.reply_count}개 보기`);
+                    reply_showBtn.setAttribute('class', 'reply_show');
+                    comment_box.appendChild(reply_showBtn);
+                    comment_box.appendChild(replyList);
+                }
 
                 li.appendChild(comment_box);
                 commentlist.appendChild(li);

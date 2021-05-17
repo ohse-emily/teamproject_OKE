@@ -158,7 +158,6 @@ let comment_post = async (req, res, next) => {
             board_id: body.boardid,
             useridx: useridx,
             content: body.content,
-            comment_type: true,
         });
     }
 
@@ -169,7 +168,7 @@ let comment_post = async (req, res, next) => {
 
         where: {
             board_id: body.boardid,
-            comment_type: true,
+            master_comment:0, 
         },
         order: [['id', 'DESC']],
     });
@@ -198,15 +197,28 @@ let reply_post = async (req, res) => {
                 board_id: body.boardid,
                 useridx: useridx,
                 content: body.content,
-                comment_type: false,
                 master_comment: body.master_comment,
     
             });
+
+            let replycount = await Comment.findOne({
+                attributes: ['reply_count'],
+                where: {
+                    id:body.master_comment,
+                }
+            }); 
+
+            let replyCount =replycount.dataValues.reply_count+1; 
+            
+            await Comment.update({ 
+                reply_count:replyCount, 
+            },{
+                where: {
+                    id:body.master_comment,
+                }
+            }); 
         }
         
-    
-
-
     let replyList = await Comment.findAll({
         include: [
             { model: User, }
@@ -214,7 +226,6 @@ let reply_post = async (req, res) => {
 
         where: {
             board_id: body.boardid,
-            // comment_type: false,
             master_comment: body.master_comment,
         },
         // order: [['id', 'DESC']],
@@ -225,6 +236,8 @@ let reply_post = async (req, res) => {
     })
 
 }
+
+
 
 module.exports={
   comment_post, reply_post,
