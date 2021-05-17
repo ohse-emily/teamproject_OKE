@@ -6,7 +6,8 @@
     "host": "127.0.0.1",
     "dialect": "mysql",
     "dialectOptions":{
-      "useUTC":false
+      "useUTC":false,
+      "dataStrings":true      
     },
     "timezone":"+09:00"
   },

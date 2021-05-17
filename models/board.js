@@ -35,7 +35,7 @@ module.exports = class Board extends Sequelize.Model{
                 allowNull:false,
                 defaultValue:Sequelize.NOW,
                 get:function(){
-                    return moment(this.getDataValue('date')).format('YYYY-MM-DD')
+                    return moment(this.getDataValue('date')).format('MM-DD-YYYY')
                 }
             },
 
