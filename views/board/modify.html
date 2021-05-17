@@ -1,24 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h2>modify.html</h2>
-    <form method="post" id="modify_form" action ="/board/view_after_modify"> 
-        <button type="submit" id="blocking_enter" style="display:none" disabled></button> <!--엔터치면 제목,내용없이 작성되는 것 방지-->
-        <input name="id" value="{{result.id}}" style="display:none"> <!--index번호-->
-        글쓴이 : <input name="writer" value="{{result.userid}}" readonly><br/>
-        조회수 : <input name ="hit" value="{{hit}}" readonly ><br/> <!--조회수-->
-        제목 : <input id="modify_subject" type = "text" name ="modify_subject" value ="{{result.subject}}"><br/>
-        내용 : <input id="modify_content" type = "textarea" name ="modify_content" value ="{{result.content}}"><br/>
-        
-        <button><a href = "/board/main_board" >글 수정 취소</a></button>
-        <input id ="btn" type = "button" value="글 수정 완료">
-    </form>
+{% include "../layout/top.html" %}
+
+<div id="wrap">
+    <div id="view_back">
+        <div id="view_main">
+            <div id="view_main_header">
+                <form method="post" id="modify_form" action ="/board/view_after_modify"> 
+                    <button type="submit" id="blocking_enter" style="display:none" disabled></button> <!--엔터치면 제목,내용없이 작성되는 것 방지-->
+                    <input name="id" value="{{result.id}}" style="display:none"> <!--index번호-->
+                <div id="view_writer">
+                    writer : <span><input name="writer" value="{{result.userid}}" readonly></span>
+                </div>
+                <div id="view_hit_date">
+                    <div id="view_hit">
+                    hit :  <span><input name ="hit" value="{{hit}}" readonly > </span>
+                    </div>
+                    <div id="view_date">
+                    date : <span><input name ="hit" value="{{date}}" readonly ></span> <!--추가-->
+                    </div>
+                </div>
+            </div>
+            <div id="view_main_content">
+                <input id="modify_subject" type = "text" name ="modify_subject" value ="{{result.subject}}">
+                <input id="modify_content" type = "textarea" name ="modify_content" value ="{{result.content}}">
+            </div>
+            <div id="view_btns">
+
+                <button class="common_btn"><a href = "/board/main_board" >Cancel</a></button>
+                <button class="common_btn" id ="btn"><a>Confirm</a></button>
+            </form>
+            </div>
+        </div>
+    </div>
+
     <script type="text/javascript">
         let btn = document.querySelector('#btn');
         btn.addEventListener('click',checking);
@@ -37,5 +50,4 @@
         }
 
     </script>    
-</body>
-</html>
+{% include "../layout/bottom.html" %}

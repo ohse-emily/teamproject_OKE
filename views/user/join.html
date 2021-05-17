@@ -1,43 +1,64 @@
-join html 입니다.
-<form action="/user/join_success" id="login_form" method="post" enctype="multipart/form-data">
-    <table>
-        <tr>
-            <td>아이디</td> <!-- 중복체크 -->
-            <td><input type="text" id="userid" class ="common" name="userid" minlength=5>
-                <p id="userid_msg"></p>
-            </td>
-        </tr>
-        <tr>
-            <td>패스워드</td> <!-- 패스워드 확인 두번입력하게 -->
-            <td><input type="password" id="userpw"  class ="common" name="userpw" minlength=6></td>
-        </tr>
-        <tr>
-            <td>패스워드 확인</td>
-            <td><input type="password" id="userpw_check" class ="common"  minlength =6 ></td>
-        </tr>
-        <tr>
-            <td>이름</td> <!-- 글자길이 -->
-            <td><input type="text" id="username" class ="common"  name="username" minlength=5 ></td>
-        </tr>        
-        <tr>
-            <td>이미지</td>
-            <td><input type="file" id="img"  name="img"></td>
-        </tr>
-        <tr>
-            <td>휴대폰번호</td>
-            <td>
-                <input type='text' id="mobile" class ="common"  name="mobile" minlength=11 maxlength=11>               
-            </td>
-        </tr>
-        <tr>
-            <td>이메일</td>
-            <td>
-                <input type='text' id="useremail" class ="common"  name="useremail" >               
-            </td>
-        </tr>
-    </table>
-    <input type='button' id="login_submit" value="회원가입하기">
-</form>
+{% include "../layout/top.html" %}
+<div id = "wrap" ><img src="">  
+    <div id="back">
+        <div id="main">
+            <div id="main_l" class="main_boxes">
+                <img src ="../../images/main.jpg"> 
+            </div>
+            <div id="main_r" class="main_boxes">
+                <div id="main_r_box">
+                    <div id="welcome">
+                        <h2>Join us! </h2>
+                    </div>
+                    <form action="/user/join_success" id="login_form" method="post" enctype="multipart/form-data">
+                        <table id="join_table">
+                            <tr class ="join_tr">
+                                <td>Your ID:</td> 
+                                <td><input type="text" id="userid" class ="common" name="userid" minlength=5>
+                                    <p id="userid_msg"></p>
+                                </td>
+                            </tr>
+                            <tr class ="join_tr">
+                                <td>Password</td> 
+                                <td><input type="password" id="userpw"  class ="common" name="userpw" minlength=6></td>
+                            </tr>
+                            <tr class ="join_tr">
+                                <td>Password check</td>
+                                <td><input type="password" id="userpw_check" class ="common"  minlength =6 ></td>
+                            </tr>
+                            <tr class ="join_tr">
+                                <td>Your name</td> 
+                                <td><input type="text" id="username" class ="common"  name="username" minlength=5 ></td>
+                            </tr>        
+                            <tr class ="join_tr">
+                                <td>Your picture</td>
+                                <td><input type="file" id="img"  name="img"></td>
+                            </tr>
+                            <tr class ="join_tr">
+                                <td>Mobile No.</td>
+                                <td>
+                                    <input type='text' id="mobile" class ="common"  name="mobile" minlength=11 maxlength=11>               
+                                </td>
+                            </tr>
+                            <tr class ="join_tr">
+                                <td>Email</td>
+                                <td>
+                                    <input type='text' id="useremail" class ="common"  name="useremail" >               
+                                </td>
+                            </tr>
+                        </table>
+                        <div id="join_button_div">
+                            <input type='button' class ="join_button" id="login_submit" value="Confirm">
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <script type="text/javascript">
         let username=document.querySelector('#username')
@@ -119,7 +140,5 @@ join html 입니다.
             userid_msg.style.color = 'red'
         }
     }
-   
-
-
 </script>
+{% include "../layout/bottom.html" %}

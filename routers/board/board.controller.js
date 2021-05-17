@@ -56,6 +56,7 @@ let view_after_write = async (req, res) => {
         id: result.id,
         visiter: userid,  //visiter에 로그인한 본인 넣기 
         hit,
+        date:result.date,
     })
 }
 
@@ -82,6 +83,7 @@ let view = async (req, res) => {
         id: result.id,
         hit: result.hit,
         visiter,
+        date:result.date,
     })
 }
 
@@ -123,6 +125,7 @@ let view_after_modify = async (req, res) => {
         userid: result.userid,
         subject: result.subject,
         content: result.content,
+        date:result.date,
         hit,
         visiter,
     })

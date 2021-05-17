@@ -1,61 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% include "../layout/top.html" %}
 
-<body>
-    <h2>view.html</h2>
-    글쓴이 : <input type="text" id="userid" name="userid" value="{{userid}}" readonly><br />
-    조회수 : <input type="number" id="hit" name="hit" value={{hit}} readonly><br />
-    제목 : <input type="text" name="write_subject" value="{{subject}}" readonly><br />
-    내용 : <input type="textarea" name="write_content" value="{{content}}" readonly><br />
-    <br />
 
-    <button><a href="/board/main_board">메인으로 가기</a></button>
-    <button><a id="modify" href="/board/modify?id={{id}}&hit={{hit}}">수정하기</a></button>
-    <button><a id="remove" href="/board/remove?id={{id}}">삭제하기</a></button>
+<div id="wrap">
+    <div id="view_back">
+        <div id="view_main">
+            <div id="view_main_header">
+                <div id="view_writer">
+                    writer : <span id="userid" class="header_ltr" name="userid" value="{{userid}}" readonly>{{userid}}</span>
+                </div>
+                <div id="view_hit_date">
+                    <div id="view_hit">
+                    hit :  <span id="hit"  class="header_ltr" name="hit" readonly>{{hit}}</span>
+                    </div>
+                    <div id="view_date">
+                    date : <span id="date"  class="header_ltr" name="date"  readonly>{{date}}</span> <!--추가-->
+                    </div>
+                </div>
+            </div>
+            <div id="view_main_content">
+                {{content}} 
+            </div>
+            <div id="view_btns">
 
+                <button class="common_btn"><a id="mainBtn" href="/board/main_board">Main page</a></button>
+                <button class="common_btn"><a id="modify" href="/board/modify?id={{id}}&hit={{hit}}">Modify</a></button>
+                <button class="common_btn"><a id="remove" href="/board/remove?id={{id}}">Delete</a></button>
+            </div>
+        </div>
+    </div>
+    <div id="view_comment_back">
+        <div id="view_comment_center">
+            <div id="commentBox">
+                <input type="textbox" id="comm_content">
+                <input class ="comment_btn" type="button" id="comm_cancle" value="confirm">
+                <input class ="comment_btn"  type="button" id="comm_submit" value="Cancel">
+                <ul id=commentlist>
+                    <!--댓글 달리는 곳-->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--H I D D E N -->
     <input type="hidden" name="boardid" id="boardid" value="{{id}}">
     <!--게시판 글 INDEX 번호-->
     <input type="hidden" name="visiter" id="visiter" value="{{visiter}}">
     <!--방문자 (로그인한 아이디)-->
 
-    <div id="commentBox">
-        <input type="text" id="comm_content">
-        <input type="button" id="comm_cancle" value="취소">
-        <input type="button" id="comm_submit" value="댓글작성">
-        <ul id=commentlist>
-            <!--댓글 달리는 곳-->
-        </ul>
-    </div>
+</div>
+
     <!-- ajax 셋팅 -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script type="text/javascript">
 
 //깃연습 
         // 로그인한 id 본인만 글 수정, 삭제 가능 하도록 
-        const modify = document.querySelector('#modify');
-        const remove = document.querySelector('#remove');
-        const visiter = document.querySelector('#visiter'); //로그인한 userid
-        const userid = document.querySelector('#userid');  //글쓴이 
+        // const modify = document.querySelector('#modify');
+        // const remove = document.querySelector('#remove');
+        // const visiter = document.querySelector('#visiter'); //로그인한 userid
+        // const userid = document.querySelector('#userid');  //글쓴이 
 
-        modify.addEventListener('click', () => {
-            console.log(visiter.value, '+', userid.value)
-            if (visiter.value != userid.value) {
-                alert('글 작성자만 수정할 수 있습니다.');
-                modify.setAttribute('href', '')
-            }
-        })
-        remove.addEventListener('click', () => {
-            if (visiter.value != userid.value) {
-                alert('글 작성자만 삭제할 수 있습니다.');
-                remove.setAttribute('href', '')
-            }
-        })
+        // modify.addEventListener('click', () => {
+        //     console.log(visiter.value, '+', userid.value)
+        //     if (visiter.value != userid.value) {
+        //         alert('글 작성자만 수정할 수 있습니다.');
+        //         modify.setAttribute('href', '')
+        //     }
+        // })
+        // remove.addEventListener('click', () => {
+        //     if (visiter.value != userid.value) {
+        //         alert('글 작성자만 삭제할 수 있습니다.');
+        //         remove.setAttribute('href', '')
+        //     }
+        // })
 
 
 
@@ -573,10 +590,6 @@
                 replyshow.className = 'reply_hide'
 
         }
-
-
     </script>
 
-</body>
-
-</html>
+{% include "../layout/bottom.html" %}

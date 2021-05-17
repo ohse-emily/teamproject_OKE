@@ -1,4 +1,6 @@
-info html 입니다.
+{% include "../layout/top.html" %}
+
+
 <table>
     <tr>
         <td>번호</td>
@@ -35,3 +37,5 @@ info html 입니다.
     <a href="/user/info_modify?id={{id}}">내 정보 수정하기</a>
     <a href ="/board/main_board">메인 페이지로 가기</a>
 </table>
+
+{% include "../layout/bottom.html" %}

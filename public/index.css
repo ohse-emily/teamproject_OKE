@@ -1,0 +1,371 @@
+*{margin:0; padding:0;
+    font-family: 'Indie Flower', cursive;
+    font-family: 'Patrick Hand', cursive;
+ }
+
+ a{text-decoration: none;}
+ ul,li{list-style: none;}
+ #wrap{width:100%;}
+ 
+ #back{
+     width:100%;
+     height:650px;
+     margin-top:100px;
+     background-color: rgb(248, 248, 248);
+ }
+
+ #main{
+     width:800px;
+     height:500px;
+
+     margin:0 auto;
+ }
+
+ .main_boxes{
+     width:400px;
+     height:650px;
+     background-color: transparent;
+     float:left;
+ }
+
+ #main_l>img{
+     width:400px;
+     height:630px;
+
+ }
+
+ #main_r{
+     padding: 20px 10px;
+     box-sizing: border-box;
+ }
+
+ #main_r_box{
+     width:360px;
+     height:580px;
+     background-color: white;
+     padding:10px;
+     box-sizing: border-box;
+     margin:0 auto;
+     border: 1px solid lightgray;
+     border-radius: 5px;
+ }
+
+ #welcome{
+     padding:12px 77px 20px 77px;
+     box-sizing: border-box;
+ }
+ 
+ #welcome>h2{
+     font-family: 'Indie Flower', cursive;
+     font-size: 50px;
+ }
+
+ #user_p{
+     width:170px;
+     height:200px;
+     margin: 0 auto 8px auto;
+     padding:0 70px;
+ }
+
+ #user_p>img{
+     width:190px;
+     height:180px;
+     border-radius: 90px;
+     
+ }
+
+ #login_box{
+     width:360px;
+     height:150px;
+ }
+
+ .loginjoin{
+     width:210px;
+     height:50px;
+     background-color: hotpink;
+     border-radius: 10px;
+     border:1px solid white;
+     margin : 5px 60px 0 74px;
+ }
+
+
+ .loginjoin:hover{
+     transition: 0.5s ease-in-out;
+     background-color: white;
+     border: 1px solid hotpink;
+     
+ }
+ .loginjoin:hover>a{
+     color:hotpink;
+ }
+
+ .loginjoin>a{
+     font-size: 20px;
+     color:white;
+     font-style: bold;
+ }
+
+ #nun_user{
+     width:360px;
+     height:80px;
+     background-color: white;
+     border-radius: 5px;
+     margin:10px 10px;
+     padding: 20px 20px 15px 65px;
+     box-sizing:border-box;
+     transition: ease-in-out 0.5s;
+     border:1px solid lightgray;
+ }
+ 
+ #nun_user>a{
+     color:rgb(0, 0, 0);
+     font-size:30px;
+ }
+
+ #nun_user:hover{
+     transform: translate(20px, 50px) rotate(-20deg);
+ }
+
+
+
+/*       LOGIN   TABLE               */
+
+#join_table{
+    padding:20px 0px 20px 60px ;
+    box-sizing: border-box; 
+    
+}
+
+.join_tr{
+    width:350px;
+    height:40px;
+}
+
+#join_button_div{
+    width:350px;
+    padding:20px 45px 45px 45px;
+}
+
+.join_button{
+    width:230px;
+    height:40px;
+    background-color: rgb(63, 173, 137);
+    color:white;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    font-size: 20px;
+    margin: 0 0 0 10px;
+}
+
+.join_button:hover{
+    transition: ease-in-out 0.1s;
+    color:rgb(63, 173, 137);
+    background: white;
+    border:1px solid rgb(63, 173, 137);
+}
+
+
+
+
+/*    J O I N    S U C C E S S     */
+
+#join_success_btn{
+    margin-top: 40px;
+}
+
+.join_success_user{
+    margin-top:20px
+}
+
+
+
+/*      L   O   G   I   N      */
+
+#login_r_box{
+     width:360px;
+     height:470px;
+     background-color: white;
+     padding:10px;
+     box-sizing: border-box;
+     margin:0 auto;
+     border: 1px solid lightgray;
+     border-radius: 5px;
+}
+
+#login_table{
+    padding:0px 0px 0px 60px ;
+    box-sizing: border-box; 
+}
+
+.login_tr{
+    width:350px;
+    height:30px;
+}
+
+
+
+/*    V    I    E    W    */
+
+#view_back{
+    width:100%;
+    height:600px;
+    margin-top: 50px;
+}
+
+#view_main{
+    width:1200px;
+    height:600px;
+    margin: 0 auto;
+}
+
+#view_main_header{
+    width:1200px;
+    height:70px;
+    padding:13px 10px 16px 10px;
+    box-sizing: border-box;
+    border:1px solid lightgray;
+}
+
+.header_ltr{
+    font-size:28px;
+
+}
+
+#view_writer{
+    width:890px;
+    height:70px;
+    float:left;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+
+#view_main_content{
+    width:1200px;
+    height:500px;
+    border:1px solid lightgray;
+    box-sizing: border-box;
+}
+
+#view_hit{
+    width:100px;
+    height:70px;
+    float:left;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+#view_date{
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+
+#view_main_content{
+    width:1200px;
+    height:500px;
+    margin-bottom: 15px;
+}
+
+#view_btns>{
+    width:300px;
+    padding:0 0 0 900px;
+}
+
+.common_btn{
+    width:100px;
+    height:30px;
+    font-size:15px;
+    border:1px solid lightgray;
+    box-sizing: border-box;
+    border-radius: 5px;
+    font-weight: bold;
+    padding:3px 5px;    
+    margin-left:10px;
+    background: darkcyan;
+}
+
+.common_btn>a{
+    color:white;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+
+
+
+/* view comment */
+
+#view_comment_back{
+    width:100%;
+    height:170px;
+    margin-top:20px;
+}
+
+#view_comment_center{
+    width:1200px;
+    height:170px;
+    margin:0 auto;
+}
+
+#view_btns{
+    width:360px;
+    height:20px;
+    float:right;
+}
+
+#commentBox{
+    width:1200px;
+    height:170px;
+    padding:30px 10px 30px 30px;
+    box-sizing: border-box;
+}
+
+.comment_btn{
+    width: 80px;
+    height:25px;
+    font-size:15px;
+    background: white;
+    border:1px solid darkcyan;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color:darkcyan;
+    font-weight: bold;
+    padding:3px 5px;    
+    font-family: 'Nanum Gothic', sans-serif;
+    
+}
+
+/*     M A I N    B O A R D     */
+
+#board_table{
+    width:1200px;
+    border:1px solid lightgray;
+    margin-top:60px;
+    margin-bottom: 20px;
+    padding:40px 60px 40px 60px;
+    box-sizing: border-box;
+}
+
+.board_tr{
+    height:50px;
+}
+
+.board_td{
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+#main_board_h1{
+    width:1200px;
+    height:60px;
+    margin:0 auto;
+    text-align: center;
+}
+
+#main_board_h1>h1{
+    font-size: 60px;
+}
+
+
+
+
+
+
+
+

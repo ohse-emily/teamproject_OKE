@@ -1,23 +1,33 @@
-write.html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form id = "write_form" method="post" action ="/board/view_after_write"> 
-        <button type="submit" id="blocking_enter" style="display:none" disabled></button> <!--엔터치면 제목,내용없이 작성되는 것 방지-->
-        제목 : <input id="write_subject" type = "text" name ="write_subject"><br/>
-        <p id="subject_msg"></p>
-        내용 : <input id="write_content" type = "textarea" name ="write_content"><br/>
-        <p id="content_msg"></p>
-        <button><a href = "/board/main_board" >글 작성 취소</a></button>
-        <input id="btn" type = "button" value="글 작성 완료">
-    </form>
-    
+{% include "../layout/top.html" %}
+
+
+
+<div id="wrap">
+    <div id="view_back">
+        <div id="view_main">
+            <div id="view_main_header">
+                
+                <form id = "write_form" method="post" action ="/board/view_after_write"> 
+                <button type="submit" id="blocking_enter" style="display:none" disabled></button> <!--엔터치면 제목,내용없이 작성되는 것 방지-->
+                
+                <div id="view_writer">
+                    Subject : <span><input id="write_subject" type = "text" name ="write_subject"></span>
+                    <p id="subject_msg"></p>
+                </div>
+            </div>
+            <div id="view_main_content">
+                Content : <span><input id="write_content" type = "textarea" name ="write_content"></span>
+                        <p id="content_msg"></p>
+            </div>
+            <div id="view_btns">
+                <button class="common_btn"><a href = "/board/main_board" >Cancel</a></button>
+                <button class="common_btn"><a id="btn">Confirm</a></button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
     <script type="text/javascript">
         let btn=document.querySelector('#btn');
         btn.addEventListener('click',checking);
@@ -50,8 +60,9 @@ write.html
         })
 
     </script>
-</body>
-</html>
+
+
+{% include "../layout/bottom.html" %}
 
 
 

@@ -1,47 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    {% if flag=='0' %}
-    <script type="text/javascript">
-        alert('글쓰기는 회원만 가능합니다.')
-    </script>
-    {% endif %}
-    <h2>MAIN PAGE</h2>  
-    <table>
-        <tr>
-            <td>NO.</td>
-            <td>제목</td>
-            <td>글쓴이</td>
-            <td>내용</td>
-            <td>날짜</td>
-            <td>좋아요</td>
-            <td>조회수</td>
-        </tr>
-        {% for item in result %}
-        <tr>
-            <td>{{item.dataValues.numbering}}</td>
-            <td><a href ="/board/view?id={{item.dataValues.id}}&visiter={{userid}}">{{item.dataValues.subject}}</a></td>
-            <td>{{item.dataValues.userid}}</td>
-            <td>{{item.dataValues.content}}</td>
-            <td>{{item.dataValues.date}}</td>
-            <td>{{item.dataValues.like}}</td>            
-            <td>{{item.dataValues.hit}}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    {%if login_flag!="0" %}
-    <a href = "/board/write"> 글쓰기 </a>
-    <a href = "/user/info">나의 정보 보기</a> <br/>
-    <a href = "/user/logout"> 로그아웃 </a> <br/>
-    {% elseif login_flag=="0" %}
-    <a href = "/board/write"> 글쓰기 </a>
-    <a href = "/user/join"> 회원가입 </a>
-    {% endif %}
-</body>
-</html>
+{% include "../layout/top.html" %}
+
+<div id="wrap">
+    <div id="view_back">
+        <div id="view_main">
+            {% if flag=='0' %}
+            <script type="text/javascript">
+                alert('글쓰기는 회원만 가능합니다.')
+            </script>
+            {% endif %}
+            <div id="main_board_h1">
+                <h1>Main Board</h1>
+            </div>
+            <table id="board_table">
+                <tr class="board_tr">
+                    <td class="board_td">NO.</td>
+                    <td class="board_td">제목</td>
+                    <td class="board_td">글쓴이</td>
+                    <td class="board_td">내용</td>
+                    <td class="board_td">날짜</td>
+                    <td class="board_td">좋아요</td>
+                    <td class="board_td">조회수</td>
+                </tr>
+                {% for item in result %}
+                <tr class="board_tr">
+                    <td class="board_td">{{item.dataValues.numbering}}</td>
+                    <td class="board_td"><a href ="/board/view?id={{item.dataValues.id}}&visiter={{userid}}">{{item.dataValues.subject}}</a></td>
+                    <td class="board_td">{{item.dataValues.userid}}</td>
+                    <td class="board_td">{{item.dataValues.content}}</td>
+                    <td class="board_td">{{item.dataValues.date}}</td>
+                    <td class="board_td">{{item.dataValues.like}}</td>            
+                    <td class="board_td">{{item.dataValues.hit}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <div id="view_btns">
+
+                {%if login_flag!="0" %}
+                <button class="common_btn"><a href = "/board/write"> New post </a></button>
+                <button class="common_btn"><a href = "/user/info"> My info</a></button>
+                <button class="common_btn"><a href = "/user/logout"> Logout </a></button>
+                {% elseif login_flag=="0" %}
+                <button class="common_btn"><a href = "/board/write"> New post </a></button>
+                <button class="common_btn"><a href = "/user/join"> Join us </a></button>
+                {% endif %}
+            
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% include "../layout/bottom.html" %}
