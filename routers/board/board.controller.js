@@ -269,20 +269,26 @@ let check_commentid = async (req, res) => {
     }
 }
 
-let delete_comment = async(req,res)=>{    
-    await Comment.destroy({ 
+let delete_comment = async (req, res) => {
+    let isMaster = await Comment.findOne({
+        attributes:['master_comment','content'],
+        where:{ 
+            id: req.body.commentid,
+        }
+        
+    })
+
+    let result = await Comment.update({
+        content: "삭제된 댓글입니다.",
+    }, {
         where: {
             id: req.body.commentid,
         }
-    })
+    });
 
-    await Comment.destroy({
-        where:{ 
-            master_comment: req.body.commentid,
-        }
-    })
-    res.json({}); 
-    }
+    res.json({isMaster,result}); 
+
+}
 
 
 
