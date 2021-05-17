@@ -245,9 +245,9 @@ let check_commentid = async (req, res) => {
         where: {
             id: req.body.commentid,
         }
-    }); 
+    });
 
-    let comment_idx =commenterid.dataValues.useridx;
+    let comment_idx = commenterid.dataValues.useridx;
 
     let user = await User.findOne({
         attributes: ['id'],
@@ -271,11 +271,11 @@ let check_commentid = async (req, res) => {
 
 let delete_comment = async (req, res) => {
     let isMaster = await Comment.findOne({
-        attributes:['master_comment','content'],
-        where:{ 
+        attributes: ['master_comment', 'content'],
+        where: {
             id: req.body.commentid,
         }
-        
+
     })
 
     let result = await Comment.update({
@@ -286,14 +286,31 @@ let delete_comment = async (req, res) => {
         }
     });
 
-    res.json({isMaster,result}); 
+    res.json({ isMaster, result });
 
 }
 
+let update_comment = async (req, res) => {
+    await Comment.update({
+        content: req.body.content,
+    }, {
+        where: {
+            id: req.body.comment_id,
+        }
+    });
 
+    let updatedOne = await Comment.findOne({
+        attributes: ['content'],
+        where: {
+            id: req.body.comment_id,
+        }
+    })
+
+    res.json({ updatedOne, });
+}
 
 module.exports = {
-    comment_post, reply_post, check_commentid,delete_comment,
+    comment_post, reply_post, check_commentid, delete_comment, update_comment,
     main_board, write, view, modify, remove, view_after_write, view_after_modify,
 }
 
