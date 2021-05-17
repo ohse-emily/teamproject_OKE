@@ -208,6 +208,7 @@
                     let delete_comment = await axios.post('http://localhost:3000/board/delete_comment', {
                         commentid: commentid,
                     })
+                    comment_show();
                 }
             }
 
@@ -488,6 +489,7 @@
 
         // 최초 페이지 로드 되면 댓글을 보여주는 부분. 
         async function comment_show() {
+            while (commentlist.hasChildNodes()) { commentlist.removeChild(commentlist.firstChild); }
 
             let commentpost = await axios.post('http://localhost:3000/board/comment_post', {
                 boardid: boardid.value,

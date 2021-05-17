@@ -270,12 +270,20 @@ let check_commentid = async (req, res) => {
 }
 
 let delete_comment = async(req,res)=>{    
-    await Comment.delete({ 
+    await Comment.destroy({ 
         where: {
             id: req.body.commentid,
         }
     })
-}
+
+    await Comment.destroy({
+        where:{ 
+            master_comment: req.body.commentid,
+        }
+    })
+    res.json({}); 
+    }
+
 
 
 module.exports = {
