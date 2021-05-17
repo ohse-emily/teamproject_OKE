@@ -13,6 +13,7 @@ router.post('/comment_post', boardController.comment_post);
 router.post('/reply_post', boardController.reply_post);
 router.post('/check_commentid', boardController.check_commentid);
 router.post('/delete_comment', boardController.delete_comment);
+router.post('/destroy_comment', boardController.destroy_comment);
 router.post('/update_comment', boardController.update_comment);
 
 
