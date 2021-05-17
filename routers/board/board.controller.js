@@ -141,40 +141,93 @@ let remove = (req,res)=>{
 
 //     댓   글  Comment   //
 
-let comment_post=async(req,res,next)=>{ 
-    let body = req.body; 
+let comment_post = async (req, res, next) => {
+    let body = req.body;
 
-    let user = await User.findOne({
-      attributes: ['id'],
-      where: {               //userid (로그인한) 사람이 쓴 글의 id 값을 
-        userid:req.session.uid,
-      }
-    });
-    console.log(user)
-    let useridx = user.dataValues.id;  //useridx에 넣는다.
-    
-    await Comment.create({
-      board_id:body.boardid, 
-      useridx: useridx,
-      content: body.content,
-      comment_type:true, 
-    });
-  
-    
+    if (body.content !== undefined) {
+        let user = await User.findOne({
+            attributes: ['id'],
+            where: {               //userid (로그인한) 사람이 쓴 글의 id 값을 
+                userid: req.session.uid,
+            }
+        });
+        let useridx = user.dataValues.id;  //useridx에 넣는다.
+
+        await Comment.create({
+
+            board_id: body.boardid,
+            useridx: useridx,
+            content: body.content,
+            comment_type: true,
+        });
+    }
+
     let commList = await Comment.findAll({
-      where:{
-        board_id:body.boardid, 
-      },
-      order:[['id','DESC']],
+        include: [
+            { model: User, }
+        ],
+
+        where: {
+            board_id: body.boardid,
+            comment_type: true,
+        },
+        order: [['id', 'DESC']],
     });
-  
+
     res.json({
-      commList,
+        commList,
     })
-  }
+}
+
+//     답   글  Reply   //
+let reply_post = async (req, res) => {
+    let body = req.body;
+        if(body.content!==undefined){
+            let user = await User.findOne({
+                attributes: ['id'],
+                where: {
+                    userid: req.session.uid,
+                }
+            });
+            let useridx = user.dataValues.id;
+            if (body.comment_id !== undefined) {
+                body.content = '@' + body.comment_id + '  ' + body.content;
+            }
+    
+            await Comment.create({
+                board_id: body.boardid,
+                useridx: useridx,
+                content: body.content,
+                comment_type: false,
+                master_comment: body.master_comment,
+    
+            });
+        }
+        
+    
+
+
+    let replyList = await Comment.findAll({
+        include: [
+            { model: User, }
+        ],
+
+        where: {
+            board_id: body.boardid,
+            // comment_type: false,
+            master_comment: body.master_comment,
+        },
+        // order: [['id', 'DESC']],
+    });
+
+    res.json({
+        replyList,
+    })
+
+}
 
 module.exports={
-  comment_post,
+  comment_post, reply_post,
     main_board, write, view, modify, remove, view_after_write,view_after_modify,
 }
 

@@ -10,6 +10,8 @@ router.get('/remove',boardController.remove);
 router.post('/view_after_write',boardController.view_after_write);
 router.post('/view_after_modify', boardController.view_after_modify);
 router.post('/comment_post',boardController.comment_post); 
+router.post('/reply_post', boardController.reply_post);
+
 
 
 module.exports=router;

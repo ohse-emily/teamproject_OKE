@@ -4,15 +4,7 @@ const moment = require('moment');
 module.exports = class Comment extends Sequelize.Model{
     static init(sequelize){
         return super.init({
-            useridx:{
-                type:Sequelize.INTEGER(11),
-                allowNull:false,
-            },
-            
-            userimage:{
-                type:Sequelize.STRING(100),
-                allowNull:true,
-            },
+            //useridx userimage 삭제 
             content:{
                 type:Sequelize.TEXT,
                 allowNull:false,
