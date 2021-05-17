@@ -1,4 +1,5 @@
 const { User } = require('../../models/index');
+const moment = require('moment');
 
 let join = (req, res) => {
     res.render('./user/join.html')
@@ -23,7 +24,7 @@ let info = async (req, res) => {
         userimage:short.userimage,
         mobile:short.mobile,
         useremail:short.useremail,
-        userdt:short.userdt,
+        userdt:moment(short.userdt).format('YYYY년 MM월 DD일 hh:mm:ss a'),
     })
 }
 

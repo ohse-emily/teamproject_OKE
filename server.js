@@ -14,7 +14,7 @@ nunjucks.configure('views', {
 })
 app.use(express.static('uploads/'));
 app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());//바디파서가 json을 못 넘겨줘서 그래
+app.use(bodyParser.json());//바디파서가 json을 못 넘겨줘서그래
 app.use(cors());
 
 app.use(session({

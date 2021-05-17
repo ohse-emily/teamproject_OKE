@@ -4,15 +4,7 @@ const moment = require('moment');
 module.exports = class Comment extends Sequelize.Model{
     static init(sequelize){
         return super.init({
-            useridx:{
-                type:Sequelize.INTEGER(11),
-                allowNull:false,
-            },
-            
-            userimage:{
-                type:Sequelize.STRING(100),
-                allowNull:true,
-            },
+            //useridx userimage 삭제 
             content:{
                 type:Sequelize.TEXT,
                 allowNull:false,
@@ -29,13 +21,15 @@ module.exports = class Comment extends Sequelize.Model{
                     return moment(this.getDataValue('userdt')).format('YYYY-MM-DD')
                 }
             },
-            comment_type:{
-                type:Sequelize.BOOLEAN,
-                allowNull:false,   //그냥 댓글이면 true, 답글이면 false 
+            reply_count:{  //답글이 달리면 +1 
+                type: Sequelize.INTEGER.UNSIGNED,
+                allowNull: false,
+                defaultValue:0, 
             },
-            master_comment:{
+            master_comment:{  // 댓글이면 0, 답글이면 답글 주인의 id값. 
                 type:Sequelize.INTEGER(11),
                 allowNull:true,
+                defaultValue:0,
             }
         },{
             sequelize,

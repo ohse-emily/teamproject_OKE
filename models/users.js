@@ -30,12 +30,9 @@ module.exports = class User extends Sequelize.Model{
                 allowNull:false,
             },
             userdt:{
-                type:Sequelize.DATEONLY,
+                type:Sequelize.DATE,
                 allowNull:false,
                 defaultValue:Sequelize.NOW,
-                get:function(){
-                    return moment(this.getDataValue('userdt')).format('HH:mm YYYY-MM-DD')
-                }
             }
         },{
             sequelize,

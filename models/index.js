@@ -21,6 +21,9 @@ Board.init(sequelize);
 db.Comment=Comment;
 Comment.init(sequelize);
 
+db.User.hasMany(db.Comment, { foreignKey: 'useridx', sourceKey: 'id' })
+db.Comment.belongsTo(db.User, { foreignKey: 'useridx', targetKey: 'id' })
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
