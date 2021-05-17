@@ -248,9 +248,9 @@ let check_commentid = async (req, res) => {
         where: {
             id: req.body.commentid,
         }
-    }); 
+    });
 
-    let comment_idx =commenterid.dataValues.useridx;
+    let comment_idx = commenterid.dataValues.useridx;
 
     let user = await User.findOne({
         attributes: ['id'],
@@ -274,11 +274,11 @@ let check_commentid = async (req, res) => {
 
 let delete_comment = async (req, res) => {
     let isMaster = await Comment.findOne({
-        attributes:['master_comment','content'],
-        where:{ 
+        attributes: ['master_comment', 'content'],
+        where: {
             id: req.body.commentid,
         }
-        
+
     })
 
     let result = await Comment.update({
@@ -289,14 +289,77 @@ let delete_comment = async (req, res) => {
         }
     });
 
-    res.json({isMaster,result}); 
+    res.json({ isMaster, result });
+
+}
+
+let update_comment = async (req, res) => {
+    await Comment.update({
+        content: req.body.content,
+    }, {
+        where: {
+            id: req.body.comment_id,
+        }
+    });
+
+    let updatedOne = await Comment.findOne({
+        attributes: ['content'],
+        where: {
+            id: req.body.comment_id,
+        }
+    })
+
+    res.json({ updatedOne, });
+}
+
+let destroy_comment = async (req, res) => {
+    let master = await Comment.findOne({
+        attributes: ['master_comment'],
+        where: {
+            id: req.body.commentid,
+        }
+    });
+    console.log("master");
+    console.log(master.dataValues.master_comment);
+
+    let killComment = await Comment.destroy({    //우선 해당댓글 없애고 
+        where: {
+            id: req.body.commentid,
+        }
+    })
+
+    if (master.dataValues.master_comment == 0) {// 댓글일 때. 
+        await Comment.destroy({  //해당댓글에 달린 답글도 모두 삭제 
+            where: {
+                master_comment: req.body.commentid,
+            }
+        })
+    } else { //답글일 때  
+        let numberOfReply = await Comment.findOne({
+            attributes: ['reply_count'],
+            where: {
+                id: master.dataValues.master_comment,
+            }
+        });
+        let updateReplyCount = numberOfReply.dataValues.reply_count - 1;
+
+        await Comment.update({
+            reply_count: updateReplyCount,
+        }, {
+            where: {
+                id: master.dataValues.master_comment,
+            }
+
+        })
+    }
+    console.log(killComment); // 삭제하면 1 반환 
+    res.json({ killComment, master })
 
 }
 
 
-
 module.exports = {
-    comment_post, reply_post, check_commentid,delete_comment,
+    comment_post, reply_post, check_commentid, delete_comment, update_comment, destroy_comment,
     main_board, write, view, modify, remove, view_after_write, view_after_modify,
 }
 

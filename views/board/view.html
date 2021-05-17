@@ -53,7 +53,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script type="text/javascript">
 
-//깃연습 
+
         // 로그인한 id 본인만 글 수정, 삭제 가능 하도록 
         // const modify = document.querySelector('#modify');
         // const remove = document.querySelector('#remove');
@@ -75,6 +75,14 @@
         // })
 
 
+//무조건 할 것: 코드 줄이기. 결합도 낮추기
+// 시간 남으면 할 것. 
+//삭제하기 업데이트 말고 진짜 삭제하는 걸로 바꾸기.
+//삭제 레이어 팝업으로 바꾸기. 
+//댓글 수정 시 '수정됨' 표시 -> 데이터베이스 필드 추가? or 프로미스 객체 안에 있는 값 사용.
+//답글에 답글 달 때, a태그 걸어서 회원정보로 이동하게 하기 
+// 댓글에 userimage 넣기 
+// 댓글에 userid, userimage a태그에 넣어서 회원정보로 이동하게하기.  
 
 
         ////////    댓글 영역 //////////////////// 
@@ -215,7 +223,30 @@
 
 
             }
-            //댓글 삭제하기
+            //댓글 삭제하기 v2 db에서 디스트로이.
+            if(event.path[0].className == "deleteBtn"){ 
+                const commentid = event.path[0].parentNode.previousSibling.firstChild.value;
+                let comment_delete = confirm("댓글을 완전히 삭제할까요?"); 
+                if(comment_delete==true){
+                    let destroy_comment = await axios.post('http://localhost:3000/board/destroy_comment', {
+                        commentid: commentid,
+                    })
+                    let isMaster = destroy_comment.data.master.master_comment; 
+                    if(isMaster==0){ 
+                        comment_show();
+                    }else{
+                        const li = event.path[0].parentNode.parentNode; 
+                        const replyshow = li.parentNode.parentNode.childNodes[6];
+                        replyShow(replyshow);
+                    }
+                }
+
+            }
+
+
+
+            /*
+            //댓글 삭제하기 v1 삭제된 댓글입니다로 업데이트. db에서 content만 바꿈. 
             if(event.path[0].className == "deleteBtn"){ 
                 const commentid = event.path[0].parentNode.previousSibling.firstChild.value;
                 let comment_delete = confirm("댓글을 완전히 삭제할까요?"); 
@@ -228,13 +259,73 @@
                     } else{ 
                         const li = event.path[0].parentNode.parentNode; 
                         const replyshow = li.parentNode.parentNode.childNodes[6];
-                        // replyshow.setAttribute()
                         replyShow(replyshow);
-                        li.parentNode.removeChild(li); 
-                        comment_show();
                     }
                 }
             }
+            */
+
+            //댓글 수정하기 1 
+            if(event.path[0].className == "updateBtn"){ 
+                console.log(event.path[0].parentNode.parentNode.childNodes[0]);//div 댓글con 
+                console.log(event.path[0].parentNode.parentNode.childNodes[0].childNodes[3]);//p
+                const comment_action = event.path[0].parentNode;
+                const comment_box = event.path[0].parentNode.parentNode.childNodes[0]; 
+                const  comment_content = event.path[0].parentNode.parentNode.childNodes[0].childNodes[3];
+                
+                const updateBox = document.createElement('div'); 
+                const previous_content = document.createElement('input'); 
+                const update_content= document.createElement('input'); 
+                const update_cancle = document.createElement('input'); 
+                const update_submit = document.createElement('input'); 
+                update_content.setAttribute('type','textarea'); 
+                update_content.setAttribute('value',comment_content.innerHTML); 
+                update_cancle.setAttribute('type','button');
+                update_cancle.setAttribute('value','취소');
+                update_cancle.setAttribute('class','update_cancle');
+                update_submit.setAttribute('type','button');
+                update_submit.setAttribute('class','update_submit');
+                update_submit.setAttribute('value','수정');
+                previous_content.setAttribute('type','hidden');
+                previous_content.setAttribute('value',comment_content.innerHTML);
+                updateBox.appendChild(update_content); 
+                updateBox.appendChild(update_cancle); 
+                updateBox.appendChild(update_submit);
+                updateBox.appendChild(previous_content);
+                comment_box.replaceChild(updateBox,comment_content);
+                comment_action.removeChild(comment_action.childNodes[2]);
+                comment_action.removeChild(comment_action.childNodes[1]);
+            }
+
+            //댓글 수정하기 2 수정취소 버튼 
+            if(event.path[0].className == "update_cancle"){
+                const comment_box =event.path[0].parentNode.parentNode;  
+                const previous_content = event.path[0].parentNode.lastChild; 
+                const updateBox = event.path[0].parentNode;
+                const comment_content = document.createElement('p'); 
+                comment_content.innerHTML = previous_content.value; 
+                comment_box.replaceChild(comment_content,updateBox);
+            }
+
+            //댓글 수정하기 3 수정확인 버튼  
+            if(event.path[0].className == "update_submit"){
+                const comment_box =event.path[0].parentNode.parentNode; 
+                const updateBox = event.path[0].parentNode;
+                const comment_id = event.path[0].parentNode.parentNode.childNodes[0].value; 
+                const update_content = event.path[0].parentNode.firstChild.value; 
+
+                let update_comment = await axios.post('http://localhost:3000/board/update_comment', {
+                    content: update_content,
+                    comment_id: comment_id,
+                })
+
+                const comment_content = document.createElement('p'); 
+                comment_content.innerHTML = update_comment.data.updatedOne.content; 
+                comment_box.replaceChild(comment_content,updateBox);
+            }
+
+
+
 
             // 댓글:답글쓰기 누르면 답글입력창 보여주는 부분 
             if (event.path[0].className == "reply_makeBtn") {
@@ -520,18 +611,25 @@
             });
         }
 
-        async function replyShow(replyshow){
-            const replyBox = replyshow.nextSibling;
+        async function replyShow(replyshow) {
+                const replyBox = replyshow.nextSibling;
                 const comment_id = replyshow.parentNode.childNodes[0].value;
-
+                while (replyBox.hasChildNodes()) { replyBox.removeChild(replyBox.firstChild); }
 
                 let replypost = await axios.post('http://localhost:3000/board/reply_post', {
                     boardid: boardid.value,
                     master_comment: comment_id,
                 })
 
+                console.log(replypost.data.replyList.length);
+                if(replypost.data.replyList.length==0){
+                    console.log(replyBox);
+                    console.log(replyBox.previousSibling);
+                    console.log(replyBox.parentNode);
+                    replyBox.previousSibling.parentNode.removeChild(replyBox.previousSibling); 
 
-                replypost.data.replyList.forEach((ele) => {
+                }else{
+                    replypost.data.replyList.forEach((ele) => {
                     const li = document.createElement('li');
                     const comment_box = document.createElement('div');
                     const comment_userid = document.createElement('span');
@@ -588,7 +686,7 @@
                 });
                 replyshow.value = '답글숨기기'
                 replyshow.className = 'reply_hide'
-
+            }
         }
     </script>
 
