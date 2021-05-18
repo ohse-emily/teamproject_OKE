@@ -167,7 +167,11 @@ let user_memo = (req,res)=>{
 }
 
 let heart = (req,res)=>{
-    res.send('./user/heart.html')
+    let n = Math.floor(Math.random()*5);
+    console.log(n);
+    res.render('./user/heart.html',{
+        n,
+    })
 }
 
 module.exports = {

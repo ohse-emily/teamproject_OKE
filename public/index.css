@@ -13,11 +13,22 @@
      width:100%;
  }
 
+ #sider_user{
+
+    width:198px;
+    height:20px;
+    padding:0px 0 0 40px;
+    font-size: 20px;
+ }
+
  #lovely{
      width:198px;
      height:50px;
-     padding:30px 0 0 40px;
+     padding:5px 0 20px 40px;
+     font-size: 20px;
  }
+
+
 
  #sider{
     width:230px;
@@ -27,19 +38,26 @@
     padding:60px 0px 0 10px;
     box-sizing: border-box;
     border-left:1px solid darkcyan;
+    background-color: rgb(232, 243, 243);
 }
 
 #sider_user_id{
-    width:150px;
+    width:200px;
     height:40px;
     text-align: center;
     color:black;
     font-size: 25px;
 }
+
+#sider_user_id_div{
+    margin:0 auto;
+}
+
 #sider_user_imgbox{
     width:150px;
     height:150px;
     margin-left:20px;
+    margin-bottom: 17px;
  }
 #sider_user_img{
     width:150px;
@@ -54,7 +72,7 @@
 }
 
 #info_a{
-    color:black;
+    color:rgb(37, 10, 44);
 
 }
 
@@ -62,18 +80,19 @@
     width:150px;
     height:150px;
     border-radius: 50px;
-    box-shadow: 5px 10px 30px 5px lightgray;
+    box-shadow: 5px 5px 10px 3px lightgray;
 }
 
 #memo{
     text-align: center;
-    padding:0 30px 0 0px;
+    padding:30px 20px 0px 0px;
     box-sizing: border-box;
 }
 
 #memo>h2{
     color:darkcyan;
     font-weight: bold;
+    margin-right: 18px;
 }
 
 #sider_memo{
@@ -82,19 +101,30 @@
     height:300px;
     resize: none;
     border:1px solid darkcyan;
+    font-family: 'Nanum Gothic', sans-serif;
+    padding:5px;
+    box-sizing: border-box;
+
+}
+
+.letter_style{
+    font-family: 'Nanum Gothic', sans-serif;
 }
 
 #sider_memo_btn{
     width:15px;
     height:15px;
-    background-color: darkcyan;
-    border:1px solid darkcyan;
-    border-radius: 7px;
+    background-color: rgb(255, 124, 152);
+    border:1px solid rgb(255, 124, 152)nk;
+    border-radius: 10px;
     font-size: 10px;
     color:white;
     position:absolute;
-    right:60px;
-    top:411px;
+    right:58px;
+    top:430px;
+    padding:2px;
+    line-height: 17px;
+
 }
 
 #sider_button{
@@ -105,8 +135,13 @@
     border-radius: 3px;
     border:1px solid darkcyan;
     margin-top:6px;
+    font-size: 22px;
+    line-height: 15px;
 }
 
+#sider_button:hover{
+    background-color: rgb(92, 202, 221);
+}
 
 
 
@@ -190,7 +225,7 @@
  .loginjoin{
      width:210px;
      height:50px;
-     background-color: hotpink;
+     background-color: rgb(255, 158, 195);
      border-radius: 10px;
      border:1px solid white;
      margin : 5px 60px 0 74px;
@@ -200,11 +235,11 @@
  .loginjoin:hover{
      transition: 0.5s ease-in-out;
      background-color: white;
-     border: 1px solid hotpink;
+     border: 1px solid rgb(255, 158, 195);
      
  }
  .loginjoin:hover>a{
-     color:hotpink;
+     color:rgb(255, 158, 195);
  }
 
  .loginjoin>a{
@@ -427,6 +462,7 @@
     resize:none;
     padding:30px 15px;
     box-sizing: border-box;
+
 }
 
 #view_btns>{
@@ -445,6 +481,10 @@
     padding:3px 5px;    
     margin-left:10px;
     background: darkcyan;
+}
+
+.common_btn:hover{
+    background-color: rgb(92, 202, 221);
 }
 
 .common_btn>a{
@@ -557,10 +597,26 @@
 #info_table{
     width:800px;
     border:1px solid lightgray;
-    padding:40px 60px 40px 60px;
+    padding:40px 60px 40px 190px;
     box-sizing: border-box;
     margin: 60px auto 20px auto;
     text-align: center;
+}
+
+#info_table1{
+    width:800px;
+    border:1px solid lightgray;
+    padding:40px 60px 40px 50px;
+    box-sizing: border-box;
+    margin: 60px auto 20px auto;
+    text-align: center;
+}
+
+.info_modify_img{
+    width:280px;
+    height:30px;
+    padding:0 0 0 60px;
+    box-sizing: border-box;
 }
 
 .info_btn{
@@ -578,7 +634,11 @@
 
 .info_tr{
     margin: 0 auto;
-    height:50px;
+    height:60px;
+}
+
+.info_tr>td{
+    width: 300px;
 }
 
 .info_tr>td>img{
