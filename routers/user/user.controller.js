@@ -119,18 +119,19 @@ let info_after_modify = async (req,res)=> { //DB 업데이트, findOne 해오기
     let userid = req.body.userid;
     let userpw = req.body.userpw;
     let username = req.body.username;
-    let userimage = req.body.userimage;
+    let userimage = req.file == undefined ? '': req.file.filename;
     let mobile = req.body.mobile;
     let useremail = req.body.useremail;
     let userdt = req.body.userdt;
 
+
     console.log(id,userid,userpw,username,userimage,mobile,useremail,userdt)
 
     await User.update({
-        userid,userpw,username,userimage,mobile,useremail,userdt
+        userid,userpw,username,userimage,mobile,useremail,userdt,
     },{where:{id}});
 
-
+    console.log(id,userid,userpw,username,userimage,mobile,useremail,userdt)
 
     let result = await User.findOne({
         where:{id,}
@@ -144,7 +145,7 @@ let info_after_modify = async (req,res)=> { //DB 업데이트, findOne 해오기
         userimage:result.userimage,
         mobile:result.mobile,
         useremail:result.useremail,
-        userdt:result.userdt,
+
     })
 
 }
