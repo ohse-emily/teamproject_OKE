@@ -1,10 +1,9 @@
 {% include "../layout/top.html" %}
-
 <div id="wrap">
     <div id="info_box">
         <div id="info_header">
             <h1>My Info</h1>
-        </div>
+        </div> 
             <form id="info_modify_form" method="post" action="/user/info_after_modify" enctype="multipart/form-data">
                 <table id="info_table">
                     <tr class="info_tr" style="display:none">
@@ -12,47 +11,48 @@
                         <td><input type="text" name="id" value="{{id}}" style="display:none"></td>
                     </tr>
                     <tr class="info_tr">
-                        <td>아이디</td>
+                        <td>ID</td>
                         <td><input type="text" name="userid" value="{{userid}}" style="border:none"></td>
                     </tr>
                     <tr class="info_tr">
-                        <td>패스워드</td>
+                        <td>Password</td>
                         <td><input type="password" id="pwd1" name="userpw" value="{{userpw}}" minlength="6"></td>
                         <td id="pwd1_msg"> </td>
                     </tr>
                     <tr class="info_tr">
-                        <td>패스워드 확인</td>
+                        <td>Password check</td>
                         <td><input type="password" id="pwd2" name="userpw_check" value="{{userpw}}" minlength="6"></td>
                         <td id="pwd2_msg"> </td>
                     </tr>
                     <tr class="info_tr">
-                        <td>이름</td>
+                        <td>Name</td>
                         <td><input type="text" name="username" value="{{username}}" minlength="5"></td>
                     </tr>
                     <tr class="info_tr">
-                        <td>이미지</td>
-                        <td><img src="http://localhost:3000/{{userimage}}"></td><br/>
+                        <td>Image</td>
+                        <td><img id="info_img"  src="http://localhost:3000/{{userimage}}"></td><br/>
                         <td><input type="file" id="img"  name="img" ></td>
                     </tr>
                     <tr class="info_tr">
-                        <td>휴대폰번호</td>
+                        <td>Mobile</td>
                         <td><input type="text" id="mobile" name="mobile" value="{{mobile}}" minlength="11"
                                 maxlength="11"></td>
                         <td id="mobile_msg"></td>
                     </tr>
                     <tr class="info_tr">
-                        <td>이메일</td>
+                        <td>Email</td>
                         <td><input type="text" name="useremail" value="{{useremail}}" minlength="6"></td>
                     </tr>
                     <tr class="info_tr">
-                        <td>가입날짜</td>
+                        <td>Date</td>
                         <td><input type="text" name="userdt" value="{{userdt}}" readonly ></td>
                     </tr>
                 </table>
-                <input type="button" id="info_modify_submit" class="info_btn board_td" value="내 수정 완료">
-                <a class="info_btn board_td" href="/user/info">뒤로가기</a>
-                <a class="info_btn board_td" href="/board/main_board">메인 페이지로 가기</a>
+                <input type="submit" id="info_modify_submit" class="info_btn board_td" value="Confirm">
+                <a class="info_btn board_td" href="/user/info">Back</a>
+                <a class="info_btn board_td" href="/board/main_board">Main page</a>
             </form>
+
             <script type="text/javascript">
                 let pwd1 = document.querySelector('#pwd1');
                 let pwd2 = document.querySelector('#pwd2');
@@ -107,8 +107,6 @@
                         mobile.setAttribute('style', 'background:#fff');
                     }
                 })
-
-
 
             </script>
     </div>
