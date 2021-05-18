@@ -1,28 +1,33 @@
 {% include "../layout/top.html" %}
-
+{% include "../layout/top2.html" %}
 <div id="wrap">
     <div id="view_back">
         <div id="view_main">
+            <div id="main_board_h1">
+                <h1>modify</h1>
+            </div>
             <div id="view_main_header">
                 <form method="post" id="modify_form" action ="/board/view_after_modify"> 
                     <button type="submit" id="blocking_enter" style="display:none" disabled></button> <!--엔터치면 제목,내용없이 작성되는 것 방지-->
                     <input name="id" value="{{result.id}}" style="display:none"> <!--index번호-->
                 <div id="view_writer">
-                    writer : <span><input name="writer" value="{{result.userid}}" readonly></span>
+                    Writer : <span><input class="modify_writer" name="writer" value="{{result.userid}}" readonly></span>
+                    Subject : <input id="modify_subject" name ="modify_subject" value="{{result.subject}}">
+                   
                 </div>
                 <div id="view_hit_date">
                     <div id="view_hit">
-                    hit :  <span><input name ="hit" value="{{hit}}" readonly > </span>
+                    Hit :  <span  ><input  class="modify_hit" name ="hit" value="{{hit}}" readonly > </span>
                     </div>
                     <div id="view_date">
-                    date : <span><input name ="hit" value="{{date}}" readonly ></span> <!--추가-->
+                    Date : <span ><input class="modify_date" name ="date" value="{{date}}" readonly ></span> <!--추가-->
                     </div>
                 </div>
             </div>
-            <div id="view_main_content">
-                <input id="modify_subject" type = "text" name ="modify_subject" value ="{{result.subject}}">
-                <input id="modify_content" type = "textarea" name ="modify_content" value ="{{result.content}}">
-            </div>
+
+
+            <textarea id="modify_content" name ="modify_content" >{{result.content}}</textarea>
+
             <div id="view_btns">
 
                 <button class="common_btn"><a href = "/board/main_board" >Cancel</a></button>

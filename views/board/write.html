@@ -1,10 +1,13 @@
 {% include "../layout/top.html" %}
-
+{% include "../layout/top2.html" %}
 
 
 <div id="wrap">
     <div id="view_back">
         <div id="view_main">
+            <div id="main_board_h1">
+                <h1>Write</h1>
+            </div>
             <div id="view_main_header">
                 
                 <form id = "write_form" method="post" action ="/board/view_after_write"> 
@@ -15,10 +18,10 @@
                     <p id="subject_msg"></p>
                 </div>
             </div>
-            <div id="view_main_content">
-                Content : <span><input id="write_content" type = "textarea" name ="write_content"></span>
+
+                <textarea id="view_main_content" name ="write_content"></textarea>
                         <p id="content_msg"></p>
-            </div>
+
             <div id="view_btns">
                 <button class="common_btn"><a href = "/board/main_board" >Cancel</a></button>
                 <button class="common_btn"><a id="btn">Confirm</a></button>
@@ -29,12 +32,15 @@
 </div>
 
     <script type="text/javascript">
+        
         let btn=document.querySelector('#btn');
         btn.addEventListener('click',checking);
 
         let write_subject=document.querySelector('#write_subject');
         let write_content=document.querySelector('#write_content');
         let write_form=document.querySelector('#write_form');
+        write_subject.focus();
+
         function checking(){
             if(write_subject.value==''){
                 alert('제목을 입력해주세요');

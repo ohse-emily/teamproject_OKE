@@ -33,7 +33,7 @@ let join_success = async (req, res) => {
     let userid = req.body.userid;
     let userpw = req.body.userpw;
     let username = req.body.username;
-    let userimage = req.file == undefined ? '': req.file.filename;
+    let userimage = req.file == undefined ? '../../images/user.jpg': req.file.filename;
     let mobile = req.body.mobile;
     let useremail = req.body.useremail;
     console.log('유져이미지'+userimage);
@@ -59,7 +59,10 @@ let login_check = async (req, res) => {
     } else {//로그인 성공했을 떄
 
         req.session.uid = userid;  //server에 login userid 저장 
+        req.session.uid2 = userid;
         req.session.isLogin = true;
+        req.session.userimage=result.userimage;
+
         req.session.save(() => {
             res.redirect(`/board/main_board`);
         })
@@ -149,6 +152,18 @@ let info_after_modify = async (req,res)=> { //DB 업데이트, findOne 해오기
 
 }
 
+let user_memo = (req,res)=>{
+    let user_memo = req.body.sider_memo;
+    console.log(user_memo)
+        
+    req.session.user_memo=user_memo;
+console.log(req.session);
+    req.session.save(() => {
+        res.redirect('/board/main_board');
+    })
+
+}
+
 
 module.exports = {
     join,
@@ -160,4 +175,5 @@ module.exports = {
     userid_check,
     info_modify,
     info_after_modify,
+    user_memo,
 }

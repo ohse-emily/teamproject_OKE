@@ -29,5 +29,6 @@ router.post('/login_check',userController.login_check);
 router.get('/userid_check', userController.userid_check);
 router.get('/info_modify', userController.info_modify);
 router.post('/info_after_modify', userController.info_after_modify);
+router.post('/user_memo', userController.user_memo);
 
 module.exports = router;
