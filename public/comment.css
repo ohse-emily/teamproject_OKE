@@ -1,0 +1,256 @@
+.comment_input~input,
+.reply_makeBtn,
+.reply_show,
+.reply_hide,
+.comment_action>input{
+  display: inline-block;
+  width:auto;
+  height:30px;
+  font-size:14px;
+  border:1px solid lightgray;
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-weight: bold;
+  padding:3px 5px;    
+  background: darkcyan;
+  line-height: 22px;
+}
+
+.comment_action>input,
+.reply_action>input{
+  display: block;
+  margin: 0 auto;
+}
+
+
+
+.reply_reply_makeBtn{
+  display: inline-block;
+}
+
+.reply_input~input,
+.reply_reply_makeBtn,
+.reply_action>input{
+  width:auto;
+  height:24px;
+  font-size:12px;
+  border:1px solid lightgray;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-weight: bold;
+  padding:3px 5px;    
+  background: darkcyan;
+  line-height: 16px;
+}
+
+.comment_input~input,
+.reply_input~input{
+  margin-left: 10px;
+}
+
+.comment_input~input,
+.reply_input~input,
+.reply_reply_makeBtn,
+.reply_makeBtn,
+.reply_show,
+.reply_hide,
+.reply_action>input,
+.comment_action>input{
+  color:white;
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
+
+
+
+/* view comment */
+
+#view_comment_back{
+  width:100%;
+  height:170px;
+  margin-top:20px;
+}
+
+#view_comment_center{
+  width:1200px;
+  height:auto;
+  overflow: hidden;
+  margin:0 auto;
+}
+
+#view_btns{
+  width:360px;
+  height:20px;
+  float:right;
+}
+
+#commentBox,
+#commentlist{
+  display: block;
+  width:1200px;
+  height:auto;
+  overflow: hidden;
+  padding:30px 10px 30px 30px;
+  box-sizing: border-box;
+}
+
+.comment_btn{
+  float: right;
+  width: 80px;
+  height:26px;
+  font-size:15px;
+  background: white;
+  border:1px solid darkcyan;
+  box-sizing: border-box;
+  border-radius: 5px;
+  color:darkcyan;
+  font-weight: bold;
+  padding:3px 5px;    
+  font-family: 'Nanum Gothic', sans-serif;
+  margin: 9px;
+}
+
+.reply_reply_write,
+.reply_write,
+.reply_reply_cancle,
+.reply_cancle{
+  float:right;
+  background: white;
+  border:1px solid darkcyan;
+  box-sizing: border-box;
+  border-radius: 4px;
+  color:darkcyan;
+  font-weight: bold;
+  padding:3px 5px;    
+  font-family: 'Nanum Gothic', sans-serif;
+  font-size:14px;
+  margin: 14px 10px;
+}
+
+
+
+/* 이하 김동철 작성 */
+#comm_content{
+  display: inline-block;
+  width: 80%;
+  min-height: 60px;
+  height: auto;
+  overflow: hidden;
+  font-size: 16px;
+}
+.comment_input,
+.reply_reply_input,
+.reply_input{ 
+  display: inline-block;
+  width: 80%;
+  min-height: 50px;
+  height: auto;
+  overflow: hidden;
+  font-size: 16px;
+}
+
+.comment{ 
+  position: relative;
+  width:1120px ;
+  height: auto;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.reply{ 
+
+  width:1080px ;
+  height: auto;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.imageBox,
+.reply_imageBox{ 
+  float: left;
+  padding-right: 20px;
+}
+
+.imageBox>img{
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+}
+
+
+.reply_imageBox>img{
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+}
+
+.comment_box{
+  float: left;
+  width: 1000px;
+  height: auto;
+  overflow: hidden;
+}
+
+.reply_box{
+  float: left;
+  width: 900px;
+  height: auto;
+  overflow: hidden;
+}
+
+.comment_userid{ 
+  padding-right: 20px;
+}
+
+.reply_userid{
+  height: 25px;
+  padding-right: 16px;
+  font-size: 14px;
+}
+
+.comment_userid,
+.comment_date{
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+}
+
+.reply_userid,
+.reply_date{
+  display: inline-block;
+  height: 25px;
+  line-height: 25px;
+  font-size: 14px;
+}
+
+.comment_content{
+  width: 900px; 
+  min-height: 40px;
+  padding:0 10px 10px 0;
+  box-sizing: border-box;
+  height: auto;
+}
+
+.reply_content{
+  width: 800px;
+  min-height: 30px;
+  padding:0 10px 10px 0;
+  box-sizing: border-box;
+  height: auto;
+  font-size: 14px;
+}
+
+.reply_maker,
+.reply_reply_maker{
+  min-height: 52px;
+  height: auto;
+  overflow: hidden;
+}
+
+.comment_action,
+.reply_action{
+  position: absolute; 
+  right: 0;
+  width: 100px;
+  height: 100px;
+}

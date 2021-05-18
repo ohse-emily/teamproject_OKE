@@ -149,17 +149,17 @@ let remove = (req, res) => {
 let comment_post = async (req, res, next) => {
     let body = req.body;
 
+    let user = await User.findOne({
+        attributes: ['id'],
+        where: {               //userid (로그인한) 사람이 쓴 글의 id 값을 
+            userid: req.session.uid,
+        }
+    });
+
+    let useridx = user.dataValues.id;  //useridx에 넣는다.
+
     if (body.content !== undefined) {
-        let user = await User.findOne({
-            attributes: ['id'],
-            where: {               //userid (로그인한) 사람이 쓴 글의 id 값을 
-                userid: req.session.uid,
-            }
-        });
-        let useridx = user.dataValues.id;  //useridx에 넣는다.
-
         await Comment.create({
-
             board_id: body.boardid,
             useridx: useridx,
             content: body.content,
@@ -170,7 +170,6 @@ let comment_post = async (req, res, next) => {
         include: [
             { model: User, }
         ],
-
         where: {
             board_id: body.boardid,
             master_comment: 0,
@@ -180,20 +179,22 @@ let comment_post = async (req, res, next) => {
 
     res.json({
         commList,
+        useridx, 
     })
 }
 
 //     답   글  Reply   //
 let reply_post = async (req, res) => {
     let body = req.body;
+    let user = await User.findOne({
+        attributes: ['id'],
+        where: {
+            userid: req.session.uid,
+        }
+    });
+    let useridx = user.dataValues.id;
+
     if (body.content !== undefined) {
-        let user = await User.findOne({
-            attributes: ['id'],
-            where: {
-                userid: req.session.uid,
-            }
-        });
-        let useridx = user.dataValues.id;
         if (body.comment_id !== undefined) {
             body.content = '@' + body.comment_id + '  ' + body.content;
         }
@@ -238,6 +239,7 @@ let reply_post = async (req, res) => {
 
     res.json({
         replyList,
+        useridx,
     })
 
 }
@@ -319,8 +321,6 @@ let destroy_comment = async (req, res) => {
             id: req.body.commentid,
         }
     });
-    console.log("master");
-    console.log(master.dataValues.master_comment);
 
     let killComment = await Comment.destroy({    //우선 해당댓글 없애고 
         where: {

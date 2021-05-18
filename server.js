@@ -12,6 +12,7 @@ app.set('view engine', 'html');
 nunjucks.configure('views', {
     express: app,
 })
+app.use('/uploads',express.static('uploads')); 
 
 app.use(express.static('uploads/'));
 app.use(express.static('public'));
