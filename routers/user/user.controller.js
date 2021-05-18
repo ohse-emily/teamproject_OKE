@@ -71,6 +71,8 @@ let login_check = async (req, res) => {
 let logout = (req, res) => {
     delete req.session.isLogin;
     delete req.session.uid;
+    delete req.session.uid2;
+    delete req.session.userimage;
 
     req.session.save(() => {
         res.redirect('/');
@@ -156,16 +158,17 @@ let info_after_modify = async (req,res)=> { //DB 업데이트, findOne 해오기
 
 let user_memo = (req,res)=>{
     let user_memo = req.body.sider_memo;
-    console.log(user_memo)
         
     req.session.user_memo=user_memo;
-console.log(req.session);
     req.session.save(() => {
-        res.redirect('/board/main_board');
+        
     })
 
 }
 
+let heart = (req,res)=>{
+    res.send('./user/heart.html')
+}
 
 module.exports = {
     join,
@@ -177,5 +180,5 @@ module.exports = {
     userid_check,
     info_modify,
     info_after_modify,
-    user_memo,
+    user_memo,heart,
 }

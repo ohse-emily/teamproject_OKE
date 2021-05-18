@@ -30,5 +30,6 @@ router.get('/userid_check', userController.userid_check);
 router.get('/info_modify', userController.info_modify);
 router.post('/info_after_modify',  upload.single('img'), userController.info_after_modify);
 router.post('/user_memo', userController.user_memo);
+router.get('/heart',userController.heart);
 
 module.exports = router;
