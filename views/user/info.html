@@ -1,41 +1,49 @@
 {% include "../layout/top.html" %}
 
+<div id="wrap">
+    <div id="info_box">
+        <div id="info_header">
+            <h1>My Info</h1>
+        </div>
+        <table id="info_table">
+            <tr class="info_tr" style="display:none">
+                <td>번호</td>
+                <td>{{id}}</td>
+            </tr>
+            <tr class="info_tr">
+                <td>ID</td>
+                <td>{{userid}}</td>
+            </tr>
+            <tr class="info_tr">
+                <td>Password</td>
+                <td>{{userpw}}</td>
+            </tr>
+            <tr class="info_tr">
+                <td>Name</td>
+                <td>{{username}}</td>
+            </tr>
+            <tr class="info_tr">
+                <td>Image</td>
+                <td><img id="info_img" src="http://localhost:3000/{{userimage}}"></td>
+            </tr>
+            <tr class="info_tr">
+                <td>Mobile</td>
+                <td>{{mobile}}</td>
+            </tr>
+            <tr class="info_tr">
+                <td>Email</td>
+                <td>{{useremail}}</td>
+            </tr>
+            <tr class="info_tr">
+                <td>Date</td>
+                <td>{{userdt}}</td>
+            </tr>
 
-<table>
-    <tr>
-        <td>번호</td>
-        <td>{{id}}</td>
-    </tr>
-    <tr>
-        <td>아이디</td>
-        <td>{{userid}}</td>
-    </tr>
-    <tr>
-        <td>패스워드</td>
-        <td>{{userpw}}</td>
-    </tr>
-    <tr>
-        <td>이름</td>
-        <td>{{username}}</td>
-    </tr>
-    <tr>
-        <td>이미지</td>
-        <td><img src ="http://localhost:3000/{{userimage}}"></td>
-    </tr>
-    <tr>
-        <td>휴대폰번호</td>
-        <td>{{mobile}}</td>
-    </tr>
-    <tr>
-        <td>이메일</td>
-        <td>{{useremail}}</td>
-    </tr>
-    <tr>
-        <td>가입날짜</td>
-        <td>{{userdt}}</td>
-    </tr>
-    <a href="/user/info_modify?id={{id}}">내 정보 수정하기</a>
-    <a href ="/board/main_board">메인 페이지로 가기</a>
-</table>
+        </table>
+ 
+        <a class="info_btn board_td" href="/user/info_modify?id={{id}}">Modify</a>
+        <a class="info_btn board_td" href="/board/main_board">Main page</a>
+    </div>
+</div>
 
 {% include "../layout/bottom.html" %}

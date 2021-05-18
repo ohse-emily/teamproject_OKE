@@ -1,32 +1,33 @@
 {% include "../layout/top.html" %}
-
+{% include "../layout/top2.html" %}
 
 <div id="wrap">
     <div id="view_back">
         <div id="view_main">
+            <div id="main_board_h1">
+                <h1>View</h1>
+            </div>
             <div id="view_main_header">
                 <div id="view_writer">
-                    writer : <span id="userid" class="header_ltr" name="userid" value="{{userid}}"
-                        readonly>{{userid}}</span>
+                    Writer : <span id="userid" class="header_ltr forMargin" name="userid" readonly>{{userid}}</span>
+                    Subject : <span id="view_subject" class="header_ltr" name="view_subject" readonly>{{subject}}</span>
                 </div>
                 <div id="view_hit_date">
                     <div id="view_hit">
-                        hit : <span id="hit" class="header_ltr" name="hit" readonly>{{hit}}</span>
+                    Hit :  <span id="hit"  class="header_hit" name="hit" readonly>{{hit}}</span>
                     </div>
                     <div id="view_date">
-                        date : <span id="date" class="header_ltr" name="date" readonly>{{date}}</span>
-                        <!--추가-->
+                    Date : <span id="date"  class="header_date" name="date"  readonly>{{date}}</span> <!--추가-->
                     </div>
                 </div>
             </div>
-            <div id="view_main_content">
-                {{content}}
-            </div>
+            <textarea id="view_main_content" readonly>
+                {{content}} 
+            </textarea>
             <div id="view_btns">
-
-                <button class="common_btn "><a id="mainBtn" href="/board/main_board">Main page</a></button>
-                <button class="common_btn ml10"><a id="modify" href="/board/modify?id={{id}}&hit={{hit}}">Modify</a></button>
-                <button class="common_btn ml10"><a id="remove" href="/board/remove?id={{id}}">Delete</a></button>
+                <button class="common_btn"><a id="mainBtn" href="/board/main_board">Main page</a></button>
+                <button class="common_btn"><a  id="modify" href="/board/modify?id={{id}}&hit={{hit}}">Modify</a></button>
+                <button class="common_btn"><a id="remove" href="/board/remove?id={{id}}">Delete</a></button>
             </div>
         </div>
     </div>
@@ -43,39 +44,35 @@
             </ul>
         </div>
     </div>
-
     <!--H I D D E N -->
-    <input type="hidden" name="boardid" id="boardid" value="{{id}}">
-    <!--게시판 글 INDEX 번호-->
-    <input type="hidden" name="visiter" id="visiter" value="{{visiter}}">
-    <!--방문자 (로그인한 아이디)-->
+    <input type="hidden" name="boardid" id="boardid" value="{{id}}">    <!--게시판 글 INDEX 번호-->
+    <input type="hidden" name="visiter" id="visiter" value="{{visiter}}"> <!--방문자 (로그인한 아이디)-->
+    <input type="hidden" id="userid_2" value="{{userid}}"> <!--방문자 (로그인한 아이디)-->
 
 </div>
+    <!-- ajax 셋팅 -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script type="text/javascript">
 
-<!-- ajax 셋팅 -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-<script type="text/javascript">
+        //로그인한 id 본인만 글 수정, 삭제 가능 하도록 
+        const modify = document.querySelector('#modify');
+        const remove = document.querySelector('#remove');
+        const visiter = document.querySelector('#visiter'); //로그인한 userid
+        const userid = document.querySelector('#userid');  //글쓴이 
 
-
-    // 로그인한 id 본인만 글 수정, 삭제 가능 하도록 
-    // const modify = document.querySelector('#modify');
-    // const remove = document.querySelector('#remove');
-    // const visiter = document.querySelector('#visiter'); //로그인한 userid
-    // const userid = document.querySelector('#userid');  //글쓴이 
-
-    // modify.addEventListener('click', () => {
-    //     console.log(visiter.value, '+', userid.value)
-    //     if (visiter.value != userid.value) {
-    //         alert('글 작성자만 수정할 수 있습니다.');
-    //         modify.setAttribute('href', '')
-    //     }
-    // })
-    // remove.addEventListener('click', () => {
-    //     if (visiter.value != userid.value) {
-    //         alert('글 작성자만 삭제할 수 있습니다.');
-    //         remove.setAttribute('href', '')
-    //     }
-    // })
+        modify.addEventListener('click', () => {
+            console.log(visiter.value, '+++++++++++++++++++', userid_2.value)
+            if (visiter.value != userid_2.value) {
+                alert('글 작성자만 수정할 수 있습니다.');
+                modify.setAttribute('href', '')
+            }
+        })
+        remove.addEventListener('click', () => {
+            if (visiter.value != userid_2.value) {
+                alert('글 작성자만 삭제할 수 있습니다.');
+                remove.setAttribute('href', '')
+            }
+        })
 
 
     //무조건 할 것: 코드 줄이기. 결합도 낮추기
@@ -125,7 +122,7 @@
 
                 //수정삭제 박스 만들기 
                 const comment_action = document.createElement('div');
-            if(commentpost.data.useridx==ele.useridx){
+                if(commentpost.data.useridx==ele.useridx){
 
                 const comment_actionBtn = document.createElement('input');
                 comment_actionBtn.setAttribute('type', 'button');
@@ -187,13 +184,13 @@
                 commentlist.appendChild(li);
 
                 li.setAttribute('class','comment');
-    comment_box.setAttribute('class','comment_box');
-    comment_userid.setAttribute('class','comment_userid');
-    comment_date.setAttribute('class','comment_date');
-    comment_content.setAttribute('class','comment_content');
-    reply_maker.setAttribute('class','reply_maker');
-    comment_action.setAttribute('class','comment_action');
-    imageBox.setAttribute('class','imageBox');
+                comment_box.setAttribute('class','comment_box');
+                comment_userid.setAttribute('class','comment_userid');
+                comment_date.setAttribute('class','comment_date');
+                comment_content.setAttribute('class','comment_content');
+                reply_maker.setAttribute('class','reply_maker');
+                comment_action.setAttribute('class','comment_action');
+                imageBox.setAttribute('class','imageBox');
             });
         }
 
@@ -349,6 +346,18 @@
                 content: update_content,
                 comment_id: comment_id,
             })
+        //     //답글: 답글보기 버튼을 누르면 답글을 보여주고 답글 숨기기로 바뀌게 하기.  답글 숨기기 누르면 답글 숨기고 답글 보기로 바꾸기 
+        //     if (event.path[0].className == 'reply_show') {
+        //         const replyshow = event.path[0]; 
+        //         replyShow(replyshow); 
+
+        //     } else if (event.path[0].className == 'reply_hide') {
+        //         const replyList = event.path[0].nextSibling;
+        //         let numberOfReply = replyList.childNodes.length;
+        //         while (replyList.hasChildNodes()) { replyList.removeChild(replyList.firstChild); }
+        //         event.path[0].value = `답글 ${numberOfReply}개 보기`
+        //         event.path[0].className = 'reply_show'
+        //     }
 
             const comment_content = document.createElement('pre');
             comment_content.setAttribute('class','comment_content');
@@ -498,13 +507,13 @@
                 replyList.appendChild(li);
 
                 li.setAttribute('class','reply');
-    comment_box.setAttribute('class','reply_box');
-    comment_userid.setAttribute('class','reply_userid');
-    comment_date.setAttribute('class','reply_date');
-    comment_content.setAttribute('class','reply_content');
-    reply_maker.setAttribute('class','reply_reply_maker');
-    comment_action.setAttribute('class','reply_action');
-    imageBox.setAttribute('class','reply_imageBox');
+                comment_box.setAttribute('class','reply_box');
+                comment_userid.setAttribute('class','reply_userid');
+                comment_date.setAttribute('class','reply_date');
+                comment_content.setAttribute('class','reply_content');
+                reply_maker.setAttribute('class','reply_reply_maker');
+                comment_action.setAttribute('class','reply_action');
+                imageBox.setAttribute('class','reply_imageBox');
 
             })
             event.path[0].parentNode.style.display = "none";
@@ -595,13 +604,13 @@
                 replyList.appendChild(li);
 
                 li.setAttribute('class','reply');
-    comment_box.setAttribute('class','reply_box');
-    comment_userid.setAttribute('class','reply_userid');
-    comment_date.setAttribute('class','reply_date');
-    comment_content.setAttribute('class','reply_content');
-    reply_maker.setAttribute('class','reply_reply_maker');
-    comment_action.setAttribute('class','reply_action');
-    imageBox.setAttribute('class','reply_imageBox');
+                comment_box.setAttribute('class','reply_box');
+                comment_userid.setAttribute('class','reply_userid');
+                comment_date.setAttribute('class','reply_date');
+                comment_content.setAttribute('class','reply_content');
+                reply_maker.setAttribute('class','reply_reply_maker');
+                 comment_action.setAttribute('class','reply_action');
+                imageBox.setAttribute('class','reply_imageBox');
             })
         }
     }
@@ -687,13 +696,13 @@
             commentlist.appendChild(li);
 
             li.setAttribute('class','comment');
-    comment_box.setAttribute('class','comment_box');
-    comment_userid.setAttribute('class','comment_userid');
-    comment_date.setAttribute('class','comment_date');
-    comment_content.setAttribute('class','comment_content');
-    reply_maker.setAttribute('class','reply_maker');
-    comment_action.setAttribute('class','comment_action');
-    imageBox.setAttribute('class','imageBox');
+            comment_box.setAttribute('class','comment_box');
+            comment_userid.setAttribute('class','comment_userid');
+            comment_date.setAttribute('class','comment_date');
+            comment_content.setAttribute('class','comment_content');
+            reply_maker.setAttribute('class','reply_maker');
+            comment_action.setAttribute('class','comment_action');
+            imageBox.setAttribute('class','imageBox');
         });
     }
 
@@ -779,13 +788,13 @@
                 replyBox.appendChild(li);
 
                 li.setAttribute('class','reply');
-    comment_box.setAttribute('class','reply_box');
-    comment_userid.setAttribute('class','reply_userid');
-    comment_date.setAttribute('class','reply_date');
-    comment_content.setAttribute('class','reply_content');
-    reply_maker.setAttribute('class','reply_reply_maker');
-    comment_action.setAttribute('class','reply_action');
-    imageBox.setAttribute('class','reply_imageBox');
+                comment_box.setAttribute('class','reply_box');
+                comment_userid.setAttribute('class','reply_userid');
+                comment_date.setAttribute('class','reply_date');
+                 comment_content.setAttribute('class','reply_content');
+                reply_maker.setAttribute('class','reply_reply_maker');
+                comment_action.setAttribute('class','reply_action');
+                imageBox.setAttribute('class','reply_imageBox');
             });
             replyshow.value = '답글숨기기'
             replyshow.className = 'reply_hide'

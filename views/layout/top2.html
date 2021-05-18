@@ -1,0 +1,27 @@
+<div id="entire_wrap">
+    <div id="sider">
+        <h4 id="lovely">
+            have a lovely day!
+        </h4>
+        <div id="sider_user_imgbox">
+            <img id="sider_user_img" src="http://localhost:3000/{{userimage}}">
+        </div>
+        <div id="sider_user_id">
+            {{login_userid}}
+        </div>
+        <div id="sider_user_info">
+            <a id="info_a" href="/user/info">-> Check and Modify <br/> your info!</a>
+        </div>
+        <form method="post" action="/user/user_memo">
+            <div id="memo">
+            <h2>My Memo</h2><a href="/user/heart" id="sider_memo_btn">♡</a>
+                <textarea id="sider_memo" name = "sider_memo">{{user_memo}}</textarea><br/>
+                <input type="submit" id="sider_button"  value="save">
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+</script>
