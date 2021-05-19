@@ -92,7 +92,7 @@
     const comm_submit = document.querySelector('#comm_submit'); //제출버튼 
     const commentlist = document.querySelector('#commentlist'); //댓글 영역. 
 
-    comment_init();
+    
 
     async function comment_init(){
         let comment = await axios.post('http://localhost:3000/board/comment_post', {
@@ -121,7 +121,7 @@
     subBtnarea.addEventListener('click', testReplaywrite);
     async function testReplaywrite(event) {
         
-        //수정삭제 버튼을 눌렀을 때, 작성자 id와 로그인한 userid의 id 가 같다면 수정버튼과 삭제버튼을 만들어줌
+        //수정삭제 버튼을 눌렀을 때,  수정버튼과 삭제버튼을 만들어줌 한번더 누르면 수정,삭제 버튼이 없어짐
         if (event.path[0].className == "comment_actionBtn" || event.path[0].className == "reply_actionBtn") {
             const comment_action = event.path[0].parentNode;
 
@@ -141,7 +141,7 @@
                 comment_action.removeChild(comment_action.childNodes[1]);
             }
         }
-        //댓글 삭제하기  db에서 디스트로이.
+        //댓글 삭제하기  
         if (event.path[0].className == "deleteBtn") {
             const commentid = event.path[0].parentNode.previousSibling.firstChild.value;
             let comment_delete = confirm("댓글을 완전히 삭제할까요?");
@@ -163,6 +163,7 @@
         if (event.path[0].className == "updateBtn") {
 
             const comment_action = event.path[0].parentNode;
+            comment_action.firstChild.style.display='none'
             const comment_box = event.path[0].parentNode.parentNode.childNodes[1];
             const comment_content = event.path[0].parentNode.parentNode.childNodes[1].childNodes[3];
             const updateBox = document.createElement('div');
@@ -199,6 +200,7 @@
         //댓글 수정하기 2 수정취소 버튼 
         if (event.path[0].className == "update_cancle") {
             const comment_box = event.path[0].parentNode.parentNode;
+            comment_box.nextSibling.firstChild.style.display='block'
             const previous_content = event.path[0].parentNode.lastChild;
             const updateBox = event.path[0].parentNode;
             const comment_content = document.createElement('pre');
@@ -214,6 +216,7 @@
         //댓글 수정하기 3 수정확인 버튼  
         if (event.path[0].className == "update_submit") {
             const comment_box = event.path[0].parentNode.parentNode;
+            comment_box.nextSibling.firstChild.style.display='block'
             const updateBox = event.path[0].parentNode;
             const comment_id = event.path[0].parentNode.parentNode.childNodes[0].value;
             const update_content = event.path[0].parentNode.firstChild.value;
@@ -222,16 +225,11 @@
                 content: update_content,
                 comment_id: comment_id,
             })
-            
             const comment_content = document.createElement('pre');
-            comment_content.setAttribute('class','comment_content');
+            comment_content.setAttribute('class', 'comment_content');
             comment_content.innerHTML = update_comment.data.updatedOne.content;
             comment_box.replaceChild(comment_content, updateBox);
         }
-
-
-
-
         // 댓글:답글쓰기 누르면 답글입력창 보여주는 부분 
         if (event.path[0].className == "reply_makeBtn") {
             event.path[0].parentNode.childNodes[5].style.display = "block";
@@ -240,12 +238,10 @@
         if (event.path[0].className == "reply_cancle") {
             event.path[0].parentNode.style.display = "none";
         }
-
         // 답글:답글쓰기 누르면 답글입력창 보여주는 부분 
         if (event.path[0].className == 'reply_reply_makeBtn') {
             event.path[0].parentNode.lastChild.style.display = "block"
         }
-
         //답글: 답급 취소 누르면 답글 취소 입력창 사리지는 부분. 
         if (event.path[0].className == "reply_reply_cancle") {
             event.path[0].parentNode.style.display = "none";
@@ -259,9 +255,7 @@
                 boardid: boardid.value,
                 master_comment: master_comment,
             })
-            
             replyShow(reply); 
-
         } else if (event.path[0].className == 'reply_hide') {
             const replyList = event.path[0].nextSibling;
             let numberOfReply = replyList.childNodes.length;
@@ -269,10 +263,6 @@
             event.path[0].value = `답글 ${numberOfReply}개 보기`
             event.path[0].className = 'reply_show'
         }
-
-
-
-
 
         //댓글에 답글을 달때: 답글을 Comment 데이터베이스에 입력하고 받아와서,해당 댓글의 답글을 전부 뿌려주는 부분.
         if (event.path[0].className == 'reply_write' && event.path[0].parentNode.childNodes[0].value != '') {
@@ -290,7 +280,7 @@
                 reply_showBtn.setAttribute('class', 'reply_hide');
                 while (replyList.hasChildNodes()) { replyList.removeChild(replyList.firstChild); }
             } else {
-                if (comment_box.childNodes.length == 7) {   // 답글을 삭제할때, 답글이 없다면 답글보기버튼을 없애서  7일떄 상황이 발생.,  추후 수정 요망 
+                if (comment_box.childNodes.length == 7) {   // 답글이 없다면 답글보기버튼을 삭제 
                     comment_box.removeChild(comment_box.lastChild);
                 }
                 //최초에 댓글에 답글이 달려있지 않은 경우. 아래 요소를 추가해줘야함. 
@@ -334,7 +324,7 @@
     async function comment_show(comment) { //objArray 객체를 담은 배열. 
         let comment_set = comment.data.commList; 
         let visitor = comment.data.useridx; 
-      
+
         while (commentlist.hasChildNodes()) { commentlist.removeChild(commentlist.firstChild); }
             //댓글 갱신하기 위해 기존에 댓글있다면  전부 삭제합니다.
             
@@ -454,10 +444,6 @@
             }
         })
 
-        console.log(reply.data);
-        console.log(reply.data.master);
-        console.log(replyBox); 
-        
         let reply_set = reply.data.replyList; 
         let visitor = reply.data.useridx; 
         while (replyBox.hasChildNodes()) { replyBox.removeChild(replyBox.firstChild); }
@@ -542,6 +528,9 @@
             replyBox.previousSibling.className = 'reply_hide'
         }
     }
+
+//Execution
+    comment_init();
 
 </script>
 
