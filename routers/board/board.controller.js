@@ -1,4 +1,6 @@
 const { Board, User, Comment } = require('../../models')
+const moment = require('moment');
+
 
 // M A I N B O A R D   ㅁ  ㅔ  인 // 
 
@@ -199,7 +201,7 @@ let comment_post = async (req, res) => {
         },
         order: [['id', 'DESC']],
     });
-
+    commList = dateformat(commList);
     res.json({
         commList,
         useridx,
@@ -269,6 +271,7 @@ let reply_post = async (req, res) => {
         // order: [['id', 'DESC']],
     });
 
+    replyList = dateformat(replyList);
     res.json({
         replyList,
         useridx,
@@ -335,6 +338,8 @@ let destroy_comment = async (req, res) => {
             },
             order: [['id', 'DESC']],
         });
+        commList = dateformat(commList);
+
         res.json({
             isMaster,
             commList,
@@ -370,19 +375,34 @@ let destroy_comment = async (req, res) => {
             // order: [['id', 'DESC']],
         });
         let master = isMaster;
+        replyList = dateformat(replyList);
+
         res.json({
             replyList,
             useridx,
             master,
         })
-
     }
-
 }
+
+
+
 
 
 module.exports = {
     comment_post, reply_post, update_comment, destroy_comment,
     main_board, write, view, modify, remove, view_after_write, view_after_modify,
+}
+
+function dateformat(arr) {
+    arr.forEach((ele) => {
+        let now = new Date();
+        if (String(ele.dataValues.date).slice(0, 10) != String(now).slice(0, 10)) {
+            ele.dataValues.date = moment(ele.dataValues.date).format('YYYY년 MM월 DD일')
+        } else {
+            ele.dataValues.date = moment(ele.dataValues.date).format('hh:mm:ss a')
+        }
+    })
+    return arr;
 }
 
