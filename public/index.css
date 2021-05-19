@@ -73,7 +73,10 @@
 
 #info_a{
     color:rgb(37, 10, 44);
+}
 
+#info_a:hover{
+    color:rgb(255, 56, 155); 
 }
 
 #info_img{
@@ -115,7 +118,7 @@
     width:15px;
     height:15px;
     background-color: rgb(255, 124, 152);
-    border:1px solid rgb(255, 124, 152)nk;
+    border:1px solid rgb(255, 124, 152);
     border-radius: 10px;
     font-size: 10px;
     color:white;
@@ -125,6 +128,10 @@
     padding:2px;
     line-height: 17px;
 
+}
+
+#sider_memo_btn:hover{
+    background-color: rgb(255, 0, 55);
 }
 
 #sider_button{
@@ -462,6 +469,7 @@
     resize:none;
     padding:30px 15px;
     box-sizing: border-box;
+
 
 }
 
