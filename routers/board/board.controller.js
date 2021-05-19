@@ -6,9 +6,9 @@ let main_board = async (req, res) => {
     let userid = req.session.uid; //비회원 : undefined // 회원: userid 
     let flag = req.query.flag;   // 비회원only
     let login_flag = req.query.login_flag; //비회원only
-    let user_memo= req.session.user_memo;
-    let userimage = req.session.userimage == undefined ? '../../images/user.jpg': req.session.userimage;
-    let login_userid=req.session.uid2;
+    let user_memo = req.session.user_memo;
+    let userimage = req.session.userimage == undefined ? '../../images/user.jpg' : req.session.userimage;
+    let login_userid = req.session.uid2;
     let result = await Board.findAll({
         order: [['id', 'DESC']]
     })
@@ -17,13 +17,13 @@ let main_board = async (req, res) => {
     let index = result.length;
     result.forEach((ele) => {
         if (index > 0) {
-            ele.dataValues.numbering = index;   
+            ele.dataValues.numbering = index;
         }
         index--;
     })
 
     res.render('./board/main_board.html', {
-        result, login_flag, userid, flag,userimage, user_memo,login_userid
+        result, login_flag, userid, flag, userimage, user_memo, login_userid
     });
 }
 
@@ -31,15 +31,15 @@ let main_board = async (req, res) => {
 
 let write = (req, res) => {
     let userid = req.session.uid;
-    let user_memo= req.session.user_memo;
-    let userimage = req.session.userimage == undefined ? '../../images/user.jpg': req.session.userimage;
-    let login_userid=req.session.uid2;
+    let user_memo = req.session.user_memo;
+    let userimage = req.session.userimage == undefined ? '../../images/user.jpg' : req.session.userimage;
+    let login_userid = req.session.uid2;
 
     if (userid == undefined) {
         res.redirect('/board/main_board?login_flag=0&flag=0')
     } else {
         res.render('./board/write.html', {
-            userid,user_memo,userimage,login_userid,
+            userid, user_memo, userimage, login_userid,
         })
     }
 }
@@ -51,9 +51,9 @@ let view_after_write = async (req, res) => {
     let subject = req.body.write_subject;
     let content = req.body.write_content;
     let hit = 0;
-    let user_memo= req.session.user_memo;
-    let userimage = req.session.userimage == undefined ? '../../images/user.jpg': req.session.userimage;
-    let login_userid=req.session.uid2;
+    let user_memo = req.session.user_memo;
+    let userimage = req.session.userimage == undefined ? '../../images/user.jpg' : req.session.userimage;
+    let login_userid = req.session.uid2;
     console.log(userid, subject, content,)
     let result = await Board.create({
         userid,
@@ -66,7 +66,7 @@ let view_after_write = async (req, res) => {
         id: result.id,
         visiter: userid,  //visiter에 로그인한 본인 넣기 
         hit,
-        date:result.date,user_memo,userimage,login_userid,
+        date: result.date, user_memo, userimage, login_userid,
     })
 }
 
@@ -75,9 +75,9 @@ let view_after_write = async (req, res) => {
 let view = async (req, res) => {
     let id = req.query.id;  //ok
     let visiter = req.query.visiter; // 로그인한 아이디 ( ≠ 글쓴이) //비회원 = undefined
-    let user_memo= req.session.user_memo;
-    let userimage = req.session.userimage == undefined ? '../../images/user.jpg': req.session.userimage;
-    let login_userid=req.session.uid2;
+    let user_memo = req.session.user_memo;
+    let userimage = req.session.userimage == undefined ? '../../images/user.jpg' : req.session.userimage;
+    let login_userid = req.session.uid2;
 
     let hit_count = await Board.findOne({
         where: { id }
@@ -97,7 +97,7 @@ let view = async (req, res) => {
         id: result.id,
         hit: result.hit,
         visiter,
-        date:result.date,user_memo,userimage,login_userid,
+        date: result.date, user_memo, userimage, login_userid,
     })
 }
 
@@ -106,9 +106,9 @@ let view = async (req, res) => {
 let modify = async (req, res) => {
     let id = req.query.id;
     let hit = req.query.hit;
-    let user_memo= req.session.user_memo;
-    let userimage = req.session.userimage == undefined ? '../../images/user.jpg': req.session.userimage;
-    let login_userid=req.session.uid2;
+    let user_memo = req.session.user_memo;
+    let userimage = req.session.userimage == undefined ? '../../images/user.jpg' : req.session.userimage;
+    let login_userid = req.session.uid2;
 
     let result = await Board.findOne({
         where: { id }
@@ -116,7 +116,7 @@ let modify = async (req, res) => {
     console.log(result);
     res.render('./board/modify.html', {
         result, hit,
-        date:result.date,user_memo,userimage,login_userid,
+        date: result.date, user_memo, userimage, login_userid,
     })
 }
 
@@ -129,9 +129,9 @@ let view_after_modify = async (req, res) => {
     let content = req.body.modify_content;
     let hit = req.body.hit;
     let visiter = req.session.uid;
-    let user_memo= req.session.user_memo;
-    let userimage = req.session.userimage == undefined ? '../../images/user.jpg': req.session.userimage;
-    let login_userid=req.session.uid2;
+    let user_memo = req.session.user_memo;
+    let userimage = req.session.userimage == undefined ? '../../images/user.jpg' : req.session.userimage;
+    let login_userid = req.session.uid2;
 
     await Board.update({
         subject, content,
@@ -148,9 +148,9 @@ let view_after_modify = async (req, res) => {
         userid: result.userid,
         subject: result.subject,
         content: result.content,
-        date:result.date,
+        date: result.date,
         hit,
-        visiter,user_memo,userimage,login_userid,
+        visiter, user_memo, userimage, login_userid,
     })
 }
 
@@ -169,7 +169,7 @@ let remove = (req, res) => {
 
 //     댓   글  Comment   //
 
-let comment_post = async (req, res, next) => {
+let comment_post = async (req, res) => {
     let body = req.body;
 
     let user = await User.findOne({
@@ -202,7 +202,7 @@ let comment_post = async (req, res, next) => {
 
     res.json({
         commList,
-        useridx, 
+        useridx,
     })
 }
 
@@ -216,6 +216,15 @@ let reply_post = async (req, res) => {
         }
     });
     let useridx = user.dataValues.id;
+
+    let isMaster = await Comment.findOne({ // 댓글인지 답글인지 판단. 
+        attributes: ['master_comment'],
+        where: {
+            id: req.body.master_comment,
+        }
+    })
+
+    isMaster = isMaster.dataValues.master_comment;
 
     if (body.content !== undefined) {
         if (body.comment_id !== undefined) {
@@ -263,59 +272,8 @@ let reply_post = async (req, res) => {
     res.json({
         replyList,
         useridx,
+        master: body.master_comment,
     })
-
-}
-
-let check_commentid = async (req, res) => {
-    let commenterid = await Comment.findOne({
-        attributes: ['useridx'],
-        where: {
-            id: req.body.commentid,
-        }
-    });
-
-    let comment_idx = commenterid.dataValues.useridx;
-
-    let user = await User.findOne({
-        attributes: ['id'],
-        where: {
-            userid: req.session.uid,
-        }
-    });
-
-    let useridx = user.dataValues.id;
-
-    if (comment_idx == useridx) {
-        res.json({
-            result: true,
-        })
-    } else {
-        res.json({
-            result: false,
-        })
-    }
-}
-
-let delete_comment = async (req, res) => {
-    let isMaster = await Comment.findOne({
-        attributes: ['master_comment', 'content'],
-        where: {
-            id: req.body.commentid,
-        }
-
-    })
-
-    let result = await Comment.update({
-        content: "삭제된 댓글입니다.",
-    }, {
-        where: {
-            id: req.body.commentid,
-        }
-    });
-
-    res.json({ isMaster, result });
-
 }
 
 let update_comment = async (req, res) => {
@@ -333,35 +291,60 @@ let update_comment = async (req, res) => {
             id: req.body.comment_id,
         }
     })
-
     res.json({ updatedOne, });
 }
 
 let destroy_comment = async (req, res) => {
-    let master = await Comment.findOne({
-        attributes: ['master_comment'],
+    let body = req.body;
+    let user = await User.findOne({
+        attributes: ['id'],
         where: {
-            id: req.body.commentid,
+            userid: req.session.uid,
         }
     });
+    let useridx = user.dataValues.id;
 
-    let killComment = await Comment.destroy({    //우선 해당댓글 없애고 
+    let isMaster = await Comment.findOne({ // 댓글인지 답글인지 판단. 
+        attributes: ['master_comment'],
         where: {
             id: req.body.commentid,
         }
     })
 
-    if (master.dataValues.master_comment == 0) {// 댓글일 때. 
+    await Comment.destroy({    //우선 해당댓글 없애고 
+        where: {
+            id: req.body.commentid,
+        }
+    })
+
+    isMaster = isMaster.dataValues.master_comment;
+    if (isMaster == 0) {// 댓글일 때. 
         await Comment.destroy({  //해당댓글에 달린 답글도 모두 삭제 
             where: {
                 master_comment: req.body.commentid,
             }
         })
+
+        let commList = await Comment.findAll({
+            include: [
+                { model: User, }
+            ],
+            where: {
+                board_id: body.boardid,
+                master_comment: 0,
+            },
+            order: [['id', 'DESC']],
+        });
+        res.json({
+            isMaster,
+            commList,
+            useridx,
+        })
     } else { //답글일 때  
         let numberOfReply = await Comment.findOne({
             attributes: ['reply_count'],
             where: {
-                id: master.dataValues.master_comment,
+                id: isMaster,
             }
         });
         let updateReplyCount = numberOfReply.dataValues.reply_count - 1;
@@ -370,19 +353,36 @@ let destroy_comment = async (req, res) => {
             reply_count: updateReplyCount,
         }, {
             where: {
-                id: master.dataValues.master_comment,
+                id: isMaster,
             }
 
         })
+
+        let replyList = await Comment.findAll({
+            include: [
+                { model: User, }
+            ],
+
+            where: {
+                board_id: body.boardid,
+                master_comment: isMaster,
+            },
+            // order: [['id', 'DESC']],
+        });
+        let master = isMaster;
+        res.json({
+            replyList,
+            useridx,
+            master,
+        })
+
     }
-    console.log(killComment); // 삭제하면 1 반환 
-    res.json({ killComment, master })
 
 }
 
 
 module.exports = {
-    comment_post, reply_post, check_commentid, delete_comment, update_comment, destroy_comment,
+    comment_post, reply_post, update_comment, destroy_comment,
     main_board, write, view, modify, remove, view_after_write, view_after_modify,
 }
 
