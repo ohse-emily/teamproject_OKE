@@ -126,7 +126,7 @@
     userid.addEventListener('focusout',userid_check);
     async function userid_check(){
         userid.setAttribute('style','background:#D2F4FF');
-        let data = await axios.get(`http://3.36.230.95/user/userid_check?userid=${userid.value}`);
+        let data = await axios.get(`http://13.209.126.185:3000/user/userid_check?userid=${userid.value}`);
      
        // console.log(data.data.login);
         //AJAX 가져옴, 중복:false 중복x: true
