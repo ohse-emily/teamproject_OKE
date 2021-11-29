@@ -94,7 +94,7 @@
     
 
     async function comment_init(){
-        let comment = await axios.post('http://13.209.126.185:3000/board/comment_post', {
+        let comment = await axios.post('http://3.36.230.95/board/comment_post', {
                 boardid: boardid.value,
             })
         comment_show(comment);
@@ -103,7 +103,7 @@
     //댓글 작성시. 데이터베이스 업데이트 및 작성된 댓글 보여주기. 
     async function comment_create(event) {
         if (content.value != '') {
-            let comment = await axios.post('http://13.209.126.185:3000/board/comment_post', {
+            let comment = await axios.post('http://3.36.230.95/board/comment_post', {
                 content: content.value,
                 boardid: boardid.value,
             })
@@ -145,7 +145,7 @@
             const commentid = event.path[0].parentNode.previousSibling.firstChild.value;
             let comment_delete = confirm("댓글을 완전히 삭제할까요?");
             if (comment_delete == true) {
-                let comment = await axios.post('http://13.209.126.185:3000/board/destroy_comment', {
+                let comment = await axios.post('http://3.36.230.95/board/destroy_comment', {
                     commentid: commentid,
                     boardid: boardid.value,
                 })
@@ -220,7 +220,7 @@
             const comment_id = event.path[0].parentNode.parentNode.childNodes[0].value;
             const update_content = event.path[0].parentNode.firstChild.value;
 
-            let update_comment = await axios.post('http://13.209.126.185:3000/board/update_comment', {
+            let update_comment = await axios.post('http://3.36.230.95/board/update_comment', {
                 content: update_content,
                 comment_id: comment_id,
             })
@@ -250,7 +250,7 @@
         //답글: 답글보기 버튼을 누르면 답글을 보여주고 답글 숨기기로 바뀌게 하기.  답글 숨기기 누르면 답글 숨기고 답글 보기로 바꾸기 
         if (event.path[0].className == 'reply_show') {
             let master_comment = event.path[0].parentNode.firstChild.value; 
-            let reply = await axios.post('http://13.209.126.185:3000/board/reply_post', {
+            let reply = await axios.post('http://3.36.230.95/board/reply_post', {
                 boardid: boardid.value,
                 master_comment: master_comment,
             })
@@ -292,7 +292,7 @@
                 comment_box.appendChild(replyList);
             }
 
-            let reply = await axios.post('http://13.209.126.185:3000/board/reply_post', {
+            let reply = await axios.post('http://3.36.230.95/board/reply_post', {
                 content: reply_content,
                 boardid: boardid.value,
                 master_comment: master_comment,
@@ -309,7 +309,7 @@
             const replyList = event.path[0].parentNode.parentNode.parentNode.parentNode;//ul
             const master_comment = event.path[0].parentNode.parentNode.parentNode.parentNode.parentNode.firstChild.value
 
-            let reply = await axios.post('http://13.209.126.185:3000/board/reply_post', {
+            let reply = await axios.post('http://3.36.230.95/board/reply_post', {
                 content: reply_content,
                 boardid: boardid.value,
                 master_comment: master_comment,
@@ -338,7 +338,7 @@
                 const imageBox = document.createElement('div');
                 imageBox.setAttribute('class','imageBox');
                 const img = document.createElement('img');
-                img.setAttribute('src', `http://13.209.126.185:3000/${ele.User.userimage}`);
+                img.setAttribute('src', `http://3.36.230.95/${ele.User.userimage}`);
                 imageBox.appendChild(img);
                 
                 //작성자idx, 작성자 아이디, 작성일. 댓글 내용, 각종 버튼, 답글을 담는 공간. 
