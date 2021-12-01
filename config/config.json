@@ -4,12 +4,7 @@
     "password": "root",
     "database": "OKE",
     "host": "127.0.0.1",
-    "dialect": "mysql",
-    "dialectOptions":{
-      "useUTC":false,
-      "dataStrings":true      
-    },
-    "timezone":"+09:00"
+    "dialect": "mysql"
   },
   "test": {
     "username": "root",
@@ -20,8 +15,8 @@
   },
   "production": {
     "username": "root",
-    "password": null,
-    "database": "database_production",
+    "password": "root",
+    "database": "OKE",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }

@@ -16,11 +16,11 @@ const upload = multer({
     }),
 })
 //해당폴더의 하위 URL을 관리하는 파일.
-// 13.209.126.185:3000/대분류/중분류
-// 13.209.126.185:3000/user/[중분류]
+// 13.209.126.185:4000/대분류/중분류
+// 13.209.126.185:4000/user/[중분류]
 // npm install multer
 // 아래 각각에는 next가 존재할 것이다.
-router.get('/join',userController.join) // http://localhost;3000/user/join
+router.get('/join',userController.join) // http://localhost;4000/user/join
 router.get('/login',userController.login)
 router.get('/logout',userController.logout);
 router.get('/info',userController.info)

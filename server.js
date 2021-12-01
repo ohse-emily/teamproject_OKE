@@ -36,6 +36,6 @@ sequelize.sync({ force: false })
 
 app.use('/', routers);
 
-app.listen(80, () => {
-    console.log('server start port : 80');
+app.listen(4000, () => {
+    console.log('server start port : 4000');
 })
